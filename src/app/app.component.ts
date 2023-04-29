@@ -12,33 +12,42 @@ interface Tarefa{
 })
 
 export class AppComponent {
+
+  defineLista():Tarefa[]{
+    let Tarefas:Tarefa[] = [];
+    if(localStorage.getItem("listaTarefas") != null){
+       Tarefas = JSON.parse(localStorage.getItem("listaTarefas"));
+    }
+    return Tarefas;
+  }
+  Tarefas:Tarefa[] = this.defineLista();
+
   title = 'todo-app';
-
-  mostraInput: boolean = true;
   
-  Tarefas:Tarefa[] = [];
-
   tarefa:Tarefa ={
-    texto: "",
-    categoria:""
+    texto: null,
+    categoria:null
   }
   CadastrarTarefa():void{
+    if(this.tarefa.categoria == null){
+      this.tarefa.categoria = "To Do"
+    }
     const TarefaInserida: Tarefa = {
       texto: this.tarefa.texto,
       categoria: this.tarefa.categoria
     }
     this.Tarefas.push(TarefaInserida);
     this.tarefa.texto = null;
+    this.tarefa.categoria = null;
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
-  Del(item){
+  Del(item:any){
     const index = this.Tarefas.indexOf(item);
     this.Tarefas.splice(index, 1);
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
 
  }
- defineCategoria(indice, selected):void{
-    this.Tarefas[indice].categoria = selected;
+ mudaCat():void{
+  localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
  }
-
 }
