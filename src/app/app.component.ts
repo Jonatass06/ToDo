@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 
 interface Tarefa{
   texto:string,
-  categoria:string
+  categoria:string,
+  titulo:string
 }
 
 @Component({
@@ -26,7 +27,8 @@ export class AppComponent {
   
   tarefa:Tarefa ={
     texto: null,
-    categoria:null
+    categoria:null,
+    titulo:null
   }
   CadastrarTarefa():void{
     if(this.tarefa.categoria == null){
@@ -34,11 +36,13 @@ export class AppComponent {
     }
     const TarefaInserida: Tarefa = {
       texto: this.tarefa.texto,
-      categoria: this.tarefa.categoria
+      categoria: this.tarefa.categoria,
+      titulo: this.tarefa.titulo
     }
     this.Tarefas.push(TarefaInserida);
     this.tarefa.texto = null;
     this.tarefa.categoria = null;
+    this.tarefa.titulo = null;
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
   Del(item:any){

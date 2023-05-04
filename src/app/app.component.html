@@ -1,6 +1,9 @@
 <h1>TO DO APP</h1>
 <input
-  placeholder="Escreva a Tarefa" 
+  placeholder="Escreva o Título" 
+  [(ngModel)] = "tarefa.titulo">
+  <input
+  placeholder="Escreva a Descrição" 
   [(ngModel)] = "tarefa.texto">
   <select [(ngModel)] = "tarefa.categoria">
     <option value="To Do">To Do</option>
@@ -8,11 +11,15 @@
     <option value="Done">Done</option>
   </select>
 <button (click)="CadastrarTarefa()">Cadastrar</button>
-<div *ngFor="let Tarefa of Tarefas; index as indice" >
+<div *ngFor="let Tarefa of Tarefas; index as indice" style="display:block; width:200px; word-wrap: break-word; border: 1px solid black">
   
   <h4>
     Tarefa: {{Tarefa.texto}}
   </h4>
+  <p>
+    Tarefa: {{Tarefa.titulo}}
+  </p>
+  
   <img (click)="Del(indice)" src="https://cdn-icons-png.flaticon.com/512/3405/3405244.png">
   <select [(ngModel)] = "Tarefa.categoria" (change)="mudaCat()">
     <option value="To Do">To Do</option>
