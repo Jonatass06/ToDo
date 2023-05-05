@@ -1,29 +1,99 @@
-<h1>TO DO APP</h1>
-<input
-  placeholder="Escreva o Título" 
-  [(ngModel)] = "tarefa.titulo">
-  <input
-  placeholder="Escreva a Descrição" 
-  [(ngModel)] = "tarefa.texto">
-  <select [(ngModel)] = "tarefa.categoria">
-    <option value="To Do">To Do</option>
-    <option value="Doing">Doing</option>
-    <option value="Done">Done</option>
-  </select>
-<button (click)="CadastrarTarefa()">Cadastrar</button>
-<div *ngFor="let Tarefa of Tarefas; index as indice" style="display:block; width:200px; word-wrap: break-word; border: 1px solid black">
-  
-  <h4>
-    Tarefa: {{Tarefa.texto}}
-  </h4>
-  <p>
-    Tarefa: {{Tarefa.titulo}}
-  </p>
-  
-  <img (click)="Del(indice)" src="https://cdn-icons-png.flaticon.com/512/3405/3405244.png">
-  <select [(ngModel)] = "Tarefa.categoria" (change)="mudaCat()">
-    <option value="To Do">To Do</option>
-    <option value="Doing">Doing</option>
-    <option value="Done">Done</option>
-  </select>
-</div>
+<body [style.backgroundColor]="tema" [style.color]="corTexto">
+  <select [(ngModel)]="tema" (change)="mudaTema()">
+    <option value="Black">Black</option>
+    <option value="White">White</option>
+  </select >
+  <main [style.backgroundColor]="tema" [style.color]="corTexto">
+    <div style="display:block; text-align:center;">
+      <h1>Tarefas</h1>
+      <div style="display:block; justify-content:center;">
+        <input placeholder="Título" [(ngModel)]="tarefa.titulo" style="width:34vh; height:5vh;">
+        <select [(ngModel)]="tarefa.categoria" style="width:13vh; height:6vh;">
+          <option value="To Do">To Do</option>
+          <option value="Doing">Doing</option>
+          <option value="Done">Done</option>
+        </select>
+        <button (click)="CadastrarTarefa()" style="width:13vh; height:6vh;">Cadastrar</button>
+        <br>
+        <input placeholder="Descrição" [(ngModel)]="tarefa.texto" style="width:60vh; height:5vh;">
+      </div>
+      <div style="display:flex; align-items: baseline; justify-content: space-evenly;">
+
+        <div class="colunas">
+          <div class="colunas2">
+            <h2>To Do</h2>
+            <div *ngFor="let Tarefa of Tarefas; index as indice">
+              <div *ngIf="Tarefa.categoria == 'To Do'" class="caixaTarefa" [style.borderColor]= "corTexto">
+                <h4>
+                  {{Tarefa.titulo}}
+                </h4>
+                <p class="descricao">
+                  {{Tarefa.texto}}
+                </p>
+
+                <div class="opcoes">
+                  <p (click)="Del(indice)">🗑️</p>
+                  <select [(ngModel)]="Tarefa.categoria" (change)="mudaCat()">
+                    <option value="To Do">To Do</option>
+                    <option value="Doing">Doing</option>
+                    <option value="Done">Done</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="colunas">
+          <div class="colunas2">
+            <h2>Doing</h2>
+            <div *ngFor="let Tarefa of Tarefas; index as indice">
+              <div *ngIf="Tarefa.categoria == 'Doing'" class="caixaTarefa" [style.borderColor]="corTexto">
+                <h4>
+                  {{Tarefa.titulo}}
+                </h4>
+                <p class="descricao">
+                  {{Tarefa.texto}}
+                </p>
+
+                <div class="opcoes">
+                  <p (click)="Del(indice)">🗑️</p>
+                  <select [(ngModel)]="Tarefa.categoria" (change)="mudaCat()">
+                    <option value="To Do">To Do</option>
+                    <option value="Doing">Doing</option>
+                    <option value="Done">Done</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="colunas">
+          <div class="colunas2">
+            <h2>Done</h2>
+            <div *ngFor="let Tarefa of Tarefas; index as indice">
+            <div *ngIf="Tarefa.categoria == 'Done'" class="caixaTarefa" [style.borderColor]= "corTexto">
+                <h4>
+                  {{Tarefa.titulo}}
+                </h4>
+                <p class="descricao">
+                  {{Tarefa.texto}}
+                </p>
+
+                <div class="opcoes">
+                  <p (click)="Del(indice)">🗑️</p>
+                  <select [(ngModel)]="Tarefa.categoria" (change)="mudaCat()">
+                    <option value="To Do">To Do</option>
+                    <option value="Doing">Doing</option>
+                    <option value="Done">Done</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
