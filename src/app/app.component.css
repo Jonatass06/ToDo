@@ -1,12 +1,153 @@
+:root{
+    --cor-fundo: white;
+    --text-color:black;
+}
+
+header{
+    background-color:rgba(144, 0, 240, 0.863);
+    color: white;
+    margin-bottom: 4vh;
+    height: 7vh;
+    padding-bottom: 5.5vh;
+
+}
+
+h2{
+    color:rgba(144, 0, 240, 0.863);
+    font-size: 1.3em;
+    text-shadow: -0.01rem -0.01rem 0 #ffffff, 0.01rem -0.01rem 0 #ffffff, -0.01rem 0.01rem 0 #ffffff, 0.01rem 0.01rem 0 #ffffff;
+}
+
+#divPai{
+   display:flex; 
+   align-items: space-evenly; 
+   justify-content: baseline; 
+   flex-direction: column-reverse;
+   border:0.1em solid rgba(144, 0, 240, 0.589);
+   margin-top: 5vh;
+   padding: 1vh 5vw 5vh 5vw;
+   padding-top: 4vh;
+}
+
+#botaoAdicionar{
+    margin-left:0.5em; 
+    font-size: 2em; 
+    color:rgba(144, 0, 240, 0.863);
+    text-shadow: -0.01rem -0.01rem 0 #ffffff, 0.01rem -0.01rem 0 #ffffff, -0.01rem 0.01rem 0 #ffffff, 0.01rem 0.01rem 0 #ffffff;
+}
+
+#scrollBar{
+    overflow:auto;
+    width: 80vw;
+    align-items: baseline;
+    transform: rotateX(180deg);
+    padding-bottom: 1vh;
+}
+
+#scrollBar::-webkit-scrollbar{
+    width: 0.1vw;
+    height: 1vh;
+}
+
+#scrollBar::-webkit-scrollbar-track{
+    background-color:rgba(153, 0, 255, 0.4);
+    border-radius: 10px;
+}
+#scrollBar::-webkit-scrollbar-track:hover{
+    background-color:var(--cor-fundo);
+}
+#scrollBar::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.171);
+}
+#scrollBar::-webkit-scrollbar-thumb:hover{
+    background-color: rgba(144, 0, 240, 0.589);
+}
+
+
+#novaCat{
+    width:7.8vw;
+    color: rgba(45, 0, 75, 0.863);
+    border-color: rgba(144, 0, 240, 0.863);
+    padding: 0 1vw 0 1vw ;
+    font-size: 0.8em;
+
+}
+
+#titulo{
+    width:19vw; 
+    height:5vh;
+
+}
+#descricao{
+    width:35vw; 
+    height:5vh;
+
+}
+#enviar{
+    width:8vw; 
+    height:5.51vh;
+}
+#enviar:hover{
+    background-color:rgba(187, 1, 255, 0.068);
+}
+#categoria{
+    width:8vw; 
+    height:5.51vh;
+}
+
+select{
+    appearance: none;
+    padding:0.5em;
+    text-align: center;
+    background-color: var(--cor-fundo);
+    color:var(--text-color);
+    border-color:var(--text-color);
+}
+select option{
+    text-align: center;
+    color: rgb(121, 1, 168);
+}
+#cadastro {
+    display:block; 
+    justify-content:center;
+}
+#cadastro > * > *{
+    font-size: 1rem;
+}
+input{
+    padding-left: 1vw;
+    font-size: 1rem;
+    background-color: var(--cor-fundo);
+    color:var(--text-color);
+    border:1px solid;
+    border-color:var(--text-color);
+}
+.botoesNovaCat{
+    width:4.969vw;
+    color:rgba(39, 0, 65, 0.863);
+    border-color: rgba(144, 0, 240, 0.863);
+}
+::placeholder{
+    color:var(--text-color);
+}
+
+#novaCat::placeholder{
+    text-align: center;
+    color:var(--text-color);
+}
+
+
 body{
     width:100%;
     height:100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin:0;
+    text-align: center;
 }
 main{
     display:flex; 
     justify-content:center;
-    font-family: Arial, Helvetica, sans-serif;
     width:100%;
     height:100%;
     margin:0;
@@ -16,12 +157,8 @@ div{
     display:flex;
     align-items: center;
 }
-img{
-    width:20px;
-    height:20px;
-}
 .colunas{
-    width:55vh;
+    width:23vw;
     justify-content: center;
 }
 
@@ -32,10 +169,13 @@ img{
 
 .caixaTarefa{
     display:block; 
-    width:50vh; 
+    width: 22vw; 
     word-wrap: break-word; 
-    border: 1px solid;
+    border: 0.01rem solid;
     margin:0.5vh;
+}
+.caixaTarefa:hover{
+    background-color: rgba(187, 1, 255, 0.014);
 }
 
 .descricao{
@@ -47,4 +187,13 @@ img{
     display:flex; 
     align-items: center; 
     justify-content: center;
+}
+.botao:hover{
+    background-color: rgba(187, 1, 255, 0.014);
+}
+button{
+    background-color: var(--cor-fundo);
+    color:var(--text-color);
+    border: 1px solid;
+    border-color:var(--text-color);
 }

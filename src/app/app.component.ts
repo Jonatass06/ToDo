@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2,ElementRef, OnInit } from '@angular/core';
 
 interface Tarefa {
   texto: string,
@@ -12,18 +12,35 @@ interface Tarefa {
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit{
 
-  defineLista(): Tarefa[] {
-    let Tarefas: Tarefa[] = [];
-    if (localStorage.getItem("listaTarefas") != null) {
-      Tarefas = JSON.parse(localStorage.getItem("listaTarefas"));
+  Tarefas: Tarefa[];
+  categorias:object[];
+  categoriaCadastro:string;
+
+  corTexto:string;
+  tema:string;
+  adicione:boolean = false;
+
+  ngOnInit(){
+
+    this.categorias = [{texto:"To Do"}, {texto:"Doing"}, {texto:"Done"}];
+    if (localStorage.getItem("categorias") != null) {
+      this.categorias = (JSON.parse(localStorage.getItem("categorias")));
     }
-    return Tarefas;
-  }
-  Tarefas: Tarefa[] = this.defineLista();
 
-  title = 'todo-app';
+    this.Tarefas = [];
+    if (localStorage.getItem("listaTarefas") != null) {
+      this.Tarefas = JSON.parse(localStorage.getItem("listaTarefas"));
+    }
+
+    this.tema = "White";
+    if (localStorage.getItem("tema") != null) {
+      this.tema = localStorage.getItem("tema");
+    }
+
+    this.mudaTema();
+  }
 
   tarefa: Tarefa = {
     texto: null,
@@ -31,15 +48,37 @@ export class AppComponent {
     titulo: null
   }
 
-  corTexto = 'Black';
-  tema = "White"
+  constructor(private renderer: Renderer2, private el: ElementRef) {}
 
-  mudaTema():void{
+  cadastrarCat():void{
+    if(this.categoriaCadastro!=null && this.categoriaCadastro!=""){
+      const categoriaParaCadastro = {texto:this.categoriaCadastro};
+      this.categorias.push(categoriaParaCadastro);
+      localStorage.setItem('categorias', JSON.stringify(this.categorias));
+      this.cancelar();
+    }
+  }
+
+
+
+  proFinal():void{
+    const div = this.el.nativeElement.querySelector('#scrollBar');
+    div.scrollLeft = div.scrollWidth;
+  }
+  
+  cancelar():void{
+    this.adicione=false;
+    this.categoriaCadastro = null;
+  }
+
+  mudaTema():void {
     if(this.tema == "White"){
       this.corTexto = 'Black';
     } else{
-      this.corTexto = 'White';
+      this.corTexto= "White";
     }
+    document.body.style.backgroundColor = this.tema;
+    localStorage.setItem("tema", this.tema);
   }
 
   CadastrarTarefa(): void {
@@ -63,11 +102,18 @@ export class AppComponent {
       localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
     }
   }
+  
   Del(indice: number) {
     this.Tarefas.splice(indice, 1);
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
   mudaCat(): void {
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
+  }
+
+  delCat(indice:number){
+    this.categorias.splice(indice, 1);
+    localStorage.setItem("categorias", JSON.stringify(this.categorias));
+    this.cancelar();
   }
 }
