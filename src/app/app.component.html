@@ -1,77 +1,16 @@
-<body [style.color]="corTexto">
-  <header>
+<header>
+  <div id="cabecalho">
     <div>
-      <select [(ngModel)]="tema" (change)="mudaTema()">
+      <select [(ngModel)]="tema" (change)="mudaTema()" style="display: flex;">
         <option value="Black">Black</option>
         <option value="White">White</option>
       </select>
     </div>
     <h1 style="margin-top: 0; font-size: 2em;">Tarefas</h1>
-  </header>
-  <main [style.color]="corTexto">
-    <div style="display:block; text-align:center;">
-      <div id="cadastro">
-        <div style="display: flex; align-items: center; justify-content: center;">
-          <input placeholder="Título" [(ngModel)]="tarefa.titulo" id="titulo">
-          <select [(ngModel)]="tarefa.categoria" id="categoria">
-            <option *ngFor="let Categoria of categorias" [value]="Categoria.texto">{{Categoria.texto}}</option>
-          </select>
-          <button (click)="CadastrarTarefa()" id="enviar">Cadastrar</button>
-        </div>
-        <input placeholder="Descrição" [(ngModel)]="tarefa.texto" id="descricao">
-      </div>
-      <div id="divPai">
-
-        <div id="scrollBar">
-          <div style="transform: rotateX(180deg); display: flex; align-items: baseline;">
-
-            <div *ngFor="let Categoria of categorias; index as indiceCat">
-
-              <div class="colunas">
-                <div class="colunas2">
-                  <div style="display: flex; justify-content: center;">
-                    <h2>{{Categoria.texto}}</h2>
-                    <span *ngIf="Categoria.texto != 'To Do' && Categoria.texto != 'Doing' && Categoria.texto != 'Done' "
-                      (click)="delCat(indiceCat)"
-                      style="margin-left:0.5em; display: flex; align-items: center; opacity: 0.5;">🗑️</span>
-                  </div>
-                  <div *ngFor="let Tarefa of Tarefas; index as indice">
-                    <div *ngIf="Tarefa.categoria == Categoria.texto" class="caixaTarefa" [style.borderColor]="corTexto">
-                      <h4>
-                        {{Tarefa.titulo}}
-                      </h4>
-                      <p class="descricao">
-                        {{Tarefa.texto}}
-                      </p>
-
-                      <div class="opcoes">
-                        <p (click)="Del(indice)" style="border:1px solid; height: 3.7vh; display: flex; align-items: center;"  [style.borderColor]="corTexto">🗑️</p>
-                        <select [(ngModel)]="Tarefa.categoria" (change)="mudaCat()">
-                          <option *ngFor="let Categoria of categorias" [value]="Categoria.texto">{{Categoria.texto}}</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <div>
-              <p *ngIf="!adicione" (click)="this.adicione=true;" id="botaoAdicionar">+</p>
-              <div *ngIf="adicione" style="display: block;">
-                <input placeholder="Digite o Nome" [ngStyle]="{'color':corTexto, 'opacity':0.7}" [(ngModel)]="categoriaCadastro" id="novaCat">
-                <br>
-                <div style="display: flex;">
-                  <button (click)="cancelar()" [ngStyle]="{'color':corTexto, 'opacity':0.7}" class="botoesNovaCat">Cancelar</button>
-                  <button (click)="cadastrarCat()" [ngStyle]="{'color':corTexto, 'opacity':0.7}" class="botoesNovaCat">Cadastrar</button>
-                </div>
-                {{proFinal()}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div>
+      <button routerLink="/tarefas">Tarefas</button>
+      <button routerLink="/categoria">Categorias</button>
     </div>
-  </main>
-  {{mudaTema()}}
-</body>
+  </div>
+</header>
+  <router-outlet (mudarTema)="mudaTema()"></router-outlet>

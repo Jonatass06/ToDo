@@ -1,0 +1,27 @@
+.botoesNovaCat{
+    width:7.2vw;
+    color:rgba(39, 0, 65, 0.863);
+    border-color: rgba(144, 0, 240, 0.863);
+    margin-bottom: 5vh;
+}
+#novaCat::placeholder{
+    text-align: center;
+    color:var(--text-color);
+}
+#novaCatInput{
+    width:9vw;
+    height: 4vh;
+    color: rgba(45, 0, 75, 0.863);
+    border-color: rgba(144, 0, 240, 0.863);
+    padding: 0 1vw 0 1vw ;
+    font-size: 0.8em;
+}
+#novaCatCor{
+    width:3vw;
+    height: 4.6vh;
+    color: rgba(45, 0, 75, 0.863);
+    border-color: rgba(144, 0, 240, 0.863);
+    padding: 0 1vw 0 1vw ;
+    font-size: 0.8em;
+    padding: 0;
+}

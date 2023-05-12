@@ -1,0 +1,16 @@
+<div style="display: flex; align-items: center;flex-direction: column;">
+    <div style="display: flex; align-items: center;">
+      <input placeholder="Digite o Nome" [ngStyle]="{'color':corTexto, 'opacity':0.7}" [(ngModel)]="categoriaNome" id="novaCatInput">
+      <input type="color" [(ngModel)]="categoriaCor" id="novaCatCor">
+    </div>
+    <div style="display: flex;">
+        <button (click)="cancelar()" [ngStyle]="{'color':corTexto, 'opacity':0.7}" class="botoesNovaCat">Cancelar</button>
+        <button (click)="cadastrarCat()" [ngStyle]="{'color':corTexto, 'opacity':0.7}" class="botoesNovaCat">Cadastrar</button>
+      </div>
+      <h2>Categorias</h2>
+    <div *ngFor="let cat of categorias; index as indice" [ngStyle]="{'background-color':cat.cor, 'display':'flex', 'align-items':'center'}" >
+      {{cat.nome}}
+      <p (click)="delCat(indice)" style="cursor: pointer;">🗑️</p>
+    </div>
+
+  </div>

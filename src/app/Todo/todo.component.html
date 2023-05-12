@@ -1,0 +1,51 @@
+<body [style.color]="corTexto">
+      <div style="display:block; text-align:center;">
+        <div id="cadastro">
+          <div style="display: flex; align-items: center; justify-content: center;">
+            <input placeholder="Título" [(ngModel)]="tarefa.titulo" id="titulo">
+            <select [(ngModel)]="tarefa.categoria" id="categoria">
+              <option *ngFor="let Categoria of categorias" [value]="Categoria.nome">{{Categoria.nome}}</option>
+            </select>
+            <button (click)="CadastrarTarefa()" id="enviar">Cadastrar</button>
+          </div>
+          <input placeholder="Descrição" [(ngModel)]="tarefa.texto" id="descricao">
+        </div>
+        <div id="divPai">
+  
+          <div id="scrollBar">
+
+            <div style="transform: rotateX(180deg); display: flex; align-items: baseline; height: 100%;">
+  
+              <div *ngFor="let Categoria of categorias; index as indiceCat" style="height:100%;">
+  
+                <div class="colunas" [ngStyle]="{'background-color':Categoria.cor}">
+                  <div class="colunas2">
+                    <div style="display: flex; justify-content: center;">
+                      <h2>{{Categoria.nome}}</h2>
+                    </div>
+                    <div *ngFor="let Tarefa of Tarefas; index as indice" style="">
+                      <div *ngIf="Tarefa.categoria == Categoria.nome" class="caixaTarefa" [style.borderColor]="corTexto">
+                        <h4>
+                          {{Tarefa.titulo}}
+                        </h4>
+                        <p class="descricao">
+                          {{Tarefa.texto}}
+                        </p>
+  
+                        <div class="opcoes">
+                          <p (click)="Del(indice)" style="border:1px solid; height: 3.7vh; display: flex; align-items: center;"  [style.borderColor]="corTexto">🗑️</p>
+                          <select [(ngModel)]="Tarefa.categoria" (change)="mudaCat()">
+                            <option *ngFor="let Categoria of categorias" [value]="Categoria.nome">{{Categoria.nome}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{mudaTema()}}
+  </body>
