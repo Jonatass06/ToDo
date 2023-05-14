@@ -1,16 +1,41 @@
-<div style="display: flex; align-items: center;flex-direction: column;">
-    <div style="display: flex; align-items: center;">
-      <input placeholder="Digite o Nome" [ngStyle]="{'color':corTexto, 'opacity':0.7}" [(ngModel)]="categoriaNome" id="novaCatInput">
-      <input type="color" [(ngModel)]="categoriaCor" id="novaCatCor">
+<div style="display: flex; align-items: center;flex-direction: column; justify-content: center;">
+  <div style="display: flex; align-items: center;flex-direction: column; justify-content: center;">
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <input id="pesquisa" placeholder="🔍 Pesquisa" type="text" [(ngModel)]="pesquisa" (keyup)="pesquisar()">
+      <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
+      <button *ngIf="cadastro" (click)="cadastrar()" class="cadastroBotao">-</button>
     </div>
-    <div style="display: flex;">
-        <button (click)="cancelar()" [ngStyle]="{'color':corTexto, 'opacity':0.7}" class="botoesNovaCat">Cancelar</button>
-        <button (click)="cadastrarCat()" [ngStyle]="{'color':corTexto, 'opacity':0.7}" class="botoesNovaCat">Cadastrar</button>
+    <div id="cadastro" *ngIf="cadastro">
+      <div style="display: flex; align-items: center; justify-content: center; margin-top: 2vh;">
+        <textarea (input)="tamanhoTextArea()" placeholder="Nome da Categoria" [(ngModel)]="categoriaNome"
+          id="descricao"></textarea>
+          <div style="display: flex; flex-direction: column;">      
+            <input type="color" [(ngModel)]="categoriaCor" id="novaCatCor">
+            <button (click)="cadastrarCat()" class="botoesNovaCat">Cadastrar</button>
+          </div>
       </div>
-      <h2>Categorias</h2>
-    <div *ngFor="let cat of categorias; index as indice" [ngStyle]="{'background-color':cat.cor, 'display':'flex', 'align-items':'center'}" >
-      {{cat.nome}}
-      <p (click)="delCat(indice)" style="cursor: pointer;">🗑️</p>
+
     </div>
 
+    <div *ngIf="pesquisa==''"
+      style="min-width:67vw; min-height:4.7vh; display: flex; flex-wrap: wrap;justify-content: center; padding: 1.5vw; margin: 3vh 5.9vw; border: 1px solid var(--cor-app);">
+      <div *ngFor="let cat of categorias; index as indice" class="caixa" [style.background-color]="cat.cor"
+        [style.color]="contraste(cat.cor)">
+        <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea(); muda()"
+          [style.color]="contraste(cat.cor)"></textarea>
+        <button (click)="delCat(indice)" style="cursor: pointer;" class="del"
+          [style.border-color]="contraste(cat.cor)">🗑️</button>
+      </div>
+    </div>
+    <div *ngIf="pesquisa!=''"
+      style=" display: flex; flex-wrap: wrap;justify-content: center; padding: 1.5vw; margin: 3vh 5.9vw; border: 1px solid var(--cor-app);">
+      <div *ngFor="let cat of listaPesquisa; index as indice" class="caixa" [style.background-color]="cat.cor"
+        [style.color]="contraste(cat.cor)">
+        <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea(); muda()"
+          [style.color]="contraste(cat.cor)"></textarea>
+        <button (click)="delCat(indice)" style="cursor: pointer;" class="del"
+          [style.border-color]="contraste(cat.cor)">🗑️</button>
+      </div>
+    </div>
   </div>
+  {{tamanhoTextArea()}}

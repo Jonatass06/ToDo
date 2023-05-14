@@ -18,7 +18,7 @@ interface Categoria {
 
 export class TodoComponent implements OnInit {
 
-  Tarefas: Tarefa[];
+  Tarefas: Tarefa[] = [];
 
   @Output()
   mudarTema = new EventEmitter
@@ -26,25 +26,42 @@ export class TodoComponent implements OnInit {
   mudaTema(): void {
     this.mudarTema.emit();
   }
+  cadastro: boolean = false;
   adicione: boolean = false;
   categorias: Categoria[] = [];
+  listaPesquisa: Tarefa[] = [];
+  pesquisa: string = ''
 
   ngOnInit() {
 
     if (localStorage.getItem("categorias") != null) {
       this.categorias = (JSON.parse(localStorage.getItem("categorias")));
     }
-
-    this.Tarefas = [];
     if (localStorage.getItem("listaTarefas") != null) {
       this.Tarefas = JSON.parse(localStorage.getItem("listaTarefas"));
     }
   }
 
+  contraste(cor: string): string {
+    const r = parseInt(cor.substr(1, 2), 16)
+    const g = parseInt(cor.substr(3, 2), 16)
+    const b = parseInt(cor.substr(5, 2), 16)
+    const luz = 0.2126 * r + 0.7152 * g + 0.0722 * b
+    return luz > 128 ? '#000' : '#fff'
+  }
+
   tarefa: Tarefa = {
-    texto: null,
-    categoria: null,
-    titulo: null
+    texto: "",
+    categoria: "",
+    titulo: ""
+  }
+
+  tamanhoTextArea(): void {
+    for (let textarea of this.el.nativeElement.querySelectorAll("textarea")) {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+    this.pesquisar()
   }
 
   constructor(private renderer: Renderer2, private el: ElementRef) { }
@@ -54,29 +71,38 @@ export class TodoComponent implements OnInit {
     div.scrollLeft = div.scrollWidth;
   }
 
-
-
-
+  cadastrar(): void {
+    if (!this.cadastro) {
+      this.cadastro = true;
+    } else {
+      this.cadastro = false;
+    }
+  }
 
   CadastrarTarefa(): void {
-    if ((this.tarefa.titulo == null && this.tarefa.texto == null) ||
-      (this.tarefa.titulo == null && this.tarefa.texto == "") ||
-      (this.tarefa.titulo == "" && this.tarefa.texto == null) ||
-      (this.tarefa.titulo == "" && this.tarefa.texto == "")) { }
+    if (this.tarefa.titulo == "" && this.tarefa.texto == "" || this.tarefa.categoria == "") { }
     else {
-      if (this.tarefa.categoria == null) {
-        this.tarefa.categoria = "To Do"
-      }
       const TarefaInserida: Tarefa = {
         texto: this.tarefa.texto,
         categoria: this.tarefa.categoria,
         titulo: this.tarefa.titulo
       }
       this.Tarefas.push(TarefaInserida);
-      this.tarefa.texto = null;
-      this.tarefa.categoria = null;
-      this.tarefa.titulo = null;
+      this.tarefa.texto = "";
+      this.tarefa.categoria = "";
+      this.tarefa.titulo = "";
       localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
+      this.cadastro = false
+    }
+  }
+
+  pesquisar(): void {
+    this.listaPesquisa = [];
+    for (let tarefa of this.Tarefas) {
+      if ((tarefa.titulo != null && tarefa.titulo.toLowerCase().includes(this.pesquisa.toLowerCase())) ||
+        (tarefa.texto != null && tarefa.texto.toLowerCase().includes(this.pesquisa.toLowerCase()))) {
+        this.listaPesquisa.push(tarefa);
+      }
     }
   }
 
@@ -84,9 +110,9 @@ export class TodoComponent implements OnInit {
     this.Tarefas.splice(indice, 1);
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
-  mudaCat(): void {
+  muda(): void {
+
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
-
 
 }

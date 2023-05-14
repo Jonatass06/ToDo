@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
   ],
   exports: [
     TodoComponent
-]
+  ]
 })
 
 export class TodoModule { }

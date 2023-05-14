@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CategoriaComponent } from "./Categoria/categoria.componente";
 import { TodoComponent } from "./Todo/todo.component";
 
-const rotas:Route[] = [
+const rotas: Route[] = [
     {
         path: 'categoria',
         component: CategoriaComponent
@@ -14,15 +14,15 @@ const rotas:Route[] = [
     },
     {
         path: '',
-        pathMatch:'full',
-        redirectTo:'tarefas'
+        pathMatch: 'full',
+        redirectTo: 'tarefas'
     }
 ]
 
 
 @NgModule({
-    imports:[RouterModule.forRoot(rotas)],
-    exports:[RouterModule]
+    imports: [RouterModule.forRoot(rotas)],
+    exports: [RouterModule]
 })
 
-export class AppRountingModule{}
+export class AppRountingModule { }
