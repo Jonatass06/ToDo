@@ -18,6 +18,12 @@ interface Categoria {
 
 export class TodoComponent implements OnInit {
 
+  tarefa: Tarefa = {
+    texto: "",
+    categoria: "",
+    titulo: ""
+  }
+
   Tarefas: Tarefa[] = [];
 
   @Output()
@@ -43,17 +49,11 @@ export class TodoComponent implements OnInit {
   }
 
   contraste(cor: string): string {
-    const r = parseInt(cor.substr(1, 2), 16)
-    const g = parseInt(cor.substr(3, 2), 16)
-    const b = parseInt(cor.substr(5, 2), 16)
+    const r = parseInt(String(cor).substr(1, 2), 16);
+    const g = parseInt(String(cor).substr(3, 2), 16);
+    const b = parseInt(String(cor).substr(5, 2), 16);
     const luz = 0.2126 * r + 0.7152 * g + 0.0722 * b
     return luz > 128 ? '#000' : '#fff'
-  }
-
-  tarefa: Tarefa = {
-    texto: "",
-    categoria: "",
-    titulo: ""
   }
 
   tamanhoTextArea(): void {

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2 } from "@angular/core";
+import { Component, ElementRef, Output, Renderer2, EventEmitter } from "@angular/core";
 
 interface Categoria {
     nome: string,
@@ -35,15 +35,17 @@ export class CategoriaComponent {
         }
     }
 
+    //pesquisa as categorias existentes
     pesquisar(): void {
         this.listaPesquisa = [];
-        for (let tarefa of this.categorias) {
-            if ((tarefa.nome != null && tarefa.nome.toLowerCase().includes(this.pesquisa.toLowerCase()))) {
-                this.listaPesquisa.push(tarefa);
+        for (let categoria of this.categorias) {
+            if ((categoria.nome != null && categoria.nome.toLowerCase().includes(this.pesquisa.toLowerCase()))) {
+                this.listaPesquisa.push(categoria);
             }
         }
     }
 
+    //pega a lista de categorias
     ngOnInit() {
 
         if (localStorage.getItem("categorias") != null) {
@@ -51,24 +53,14 @@ export class CategoriaComponent {
         }
     }
 
+
+    //deleta categoria e as tarefas com aquela categoria
     delCat(indice: number) {
-        let categoriaExcluir = this.categorias[indice].nome;
         this.categorias.splice(indice, 1);
-        let listaTarefas = [];
-
-        if(localStorage.getItem("listaTarefas")){
-            listaTarefas = JSON.parse(localStorage.getItem("listaTarefas"))
-        }
-
-        for(let tarefa of listaTarefas){
-            if(tarefa.categoria == categoriaExcluir){
-                listaTarefas.splice(listaTarefas.indexOf(tarefa), 1)
-            }
-        }
-        localStorage.setItem("listaTarefas", JSON.stringify(listaTarefas));
         localStorage.setItem("categorias", JSON.stringify(this.categorias));
     }
 
+    //cadastra categoria
     cadastrarCat(): void {
         let permissao = true;
         for (let cat of this.categorias) {
@@ -90,9 +82,17 @@ export class CategoriaComponent {
             alert("Você já cadastrou uma tarefa com esse nome e essa cor!")
         }
     }
-    muda(): void {
+
+    textoAntigo:string;
+    textoAntigoDefine(texto){
+        this.textoAntigo = texto;
+    }
+
+    //muda o nome da categoria
+    muda(indice:number): void {
         localStorage.setItem('categorias', JSON.stringify(this.categorias));
     }
+
     constructor(private renderer: Renderer2, private el: ElementRef) { }
     tamanhoTextArea(): void {
         for (let textarea of this.el.nativeElement.querySelectorAll("textarea")) {

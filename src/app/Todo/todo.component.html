@@ -23,36 +23,35 @@
 
         <div style="transform: rotateX(180deg); display: flex; align-items:stretch; height: 100%;">
 
-          <div *ngFor="let Categoria of categorias; index as indiceCat" [style.background-color]="Categoria.cor"
+          <div *ngFor="let Categoria of categorias; index as indiceCat"
             style="flex: 1; display: flex; align-items:baseline; margin-right: 0.1vw;"
-            [style.color]="contraste(Categoria.cor)">
+            [style.color]="--cor-texto">
             <div *ngIf="pesquisa==''">
               <div class="colunas">
-                <div class="colunas2">
+                <div class="colunas2" [ngStyle]="{'border': '1px solid ' + Categoria.cor}">
                   <div style="display: flex; justify-content: center;">
-                    <h2>{{Categoria.nome}}</h2>
+                    <h2 [style.color]="--cor-texto">{{Categoria.nome}}</h2>
                   </div>
 
-                  <div *ngFor="let Tarefa of Tarefas; index as indice"s>
+                  <div *ngFor="let Tarefa of Tarefas; index as indice" s>
                     <div *ngIf="Tarefa.categoria == Categoria.nome" class="caixaTarefa"
-                      [style.border-color]="contraste(Categoria.cor)" [style.color]="contraste(Categoria.cor)">
-                      <textarea [(ngModel)]="Tarefa.titulo" class="textA" [style.background-color]="Categoria.cor"
-                        [style.color]="contraste(Categoria.cor)" (input)="tamanhoTextArea(); muda()"
+                      [style.color]="--cor-texto" [style.boxShadow]="'1px 1px 10px 2px ' +Categoria.cor">
+                      <textarea [(ngModel)]="Tarefa.titulo" class="textA" [style.color]="--cor-texto"
+                        (input)="tamanhoTextArea(); muda()"
                         style="font-size: 1em; text-align: center; font-weight: bold;"></textarea>
-                      <textarea class="textA" (input)="tamanhoTextArea(); muda()"
-                        [style.background-color]="Categoria.cor" [style.color]="contraste(Categoria.cor)"
+                      <textarea class="textA" (input)="tamanhoTextArea(); muda()" [style.color]="--cor-texto"
                         [(ngModel)]="Tarefa.texto">
                       </textarea>
 
                       <div class="opcoes">
-                        <select [(ngModel)]="Tarefa.categoria" (change)="muda()" id="trocaCat"
-                          [style.color]="contraste(Categoria.cor)" [style.border-color]="contraste(Categoria.cor)">
+                        <select [(ngModel)]="Tarefa.categoria" (change)="muda()" class="trocaCat"
+                          [style.color]="--cor-texto" [style.border-color]="Categoria.cor">
                           <option style="background-color: var(--cor-fundo);" *ngFor="let Categoria of categorias"
                             [value]="Categoria.nome">{{Categoria.nome}}
                           </option>
                         </select>
-                        <button (click)="Del(indice)" id="trocaCatB"
-                          [style.border-color]="contraste(Categoria.cor)">🗑️</button>
+                        <button (click)="Del(indice)" class="trocaCatB"
+                          [style.border-color]="Categoria.cor">🗑️</button>
                       </div>
                     </div>
                   </div>
@@ -61,27 +60,27 @@
             </div>
             <div *ngIf="pesquisa!=''">
               <div class="colunas">
-                <div class="colunas2">
+                <div class="colunas2" [ngStyle]="{'border': '1px solid ' + Categoria.cor}">
                   <h2>{{ Categoria.nome }}</h2>
                   <div *ngFor="let pesquisas of listaPesquisa">
-                    <div *ngIf="pesquisas.categoria == Categoria.nome" class="caixaTarefa">
-                      <textarea class="textA" [(ngModel)]="pesquisas.titulo" [style.background-color]="Categoria.cor"
-                        [style.color]="contraste(Categoria.cor)" (input)="tamanhoTextArea(); muda()"
+                    <div *ngIf="pesquisas.categoria == Categoria.nome" class="caixaTarefa"
+                      [style.color]="--cor-texto" [style.boxShadow]="'1px 1px 10px 2px ' +Categoria.cor">
+                      <textarea class="textA" [(ngModel)]="pesquisas.titulo" [style.color]="--cor-texto"
+                        (input)="tamanhoTextArea(); muda()"
                         style="font-size: 1em; text-align: center; font-weight: bold;"></textarea>
-                      <textarea class="textA" (input)="tamanhoTextArea(); muda()"
-                        [style.background-color]="Categoria.cor" [style.color]="contraste(Categoria.cor)"
+                      <textarea class="textA" (input)="tamanhoTextArea(); muda()" [style.color]="--cor-texto"
                         [(ngModel)]="pesquisas.texto">
                       </textarea>
 
                       <div class="opcoes">
-                        <select [(ngModel)]="pesquisas.categoria" (change)="muda()" id="trocaCat"
-                        [style.color]="contraste(Categoria.cor)" [style.border-color]="contraste(Categoria.cor)">
-                          <option style="background-color: var(--cor-fundo);" *ngFor="let Categoria of categorias" 
-                          [value]="Categoria.nome">{{Categoria.nome}}
+                        <select [(ngModel)]="pesquisas.categoria" (change)="muda()" class="trocaCat"
+                          [style.color]="--cor-texto" [style.border-color]="Categoria.cor">
+                          <option style="background-color: var(--cor-fundo);" *ngFor="let Categoria of categorias"
+                            [value]="Categoria.nome">{{Categoria.nome}}
                           </option>
                         </select>
-                        <button (click)="Del(indice)" id="trocaCatB"
-                        [style.border-color]="contraste(Categoria.cor)">🗑️</button>
+                        <button (click)="Del(indice)" class="trocaCatB"
+                          [style.border-color]="Categoria.cor">🗑️</button>
                       </div>
                     </div>
                   </div>

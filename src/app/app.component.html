@@ -1,23 +1,23 @@
 <header>
-  <div style="display: flex; align-items: center;">
+  <div id="divHeader">
     <button id="menu" (click)="menu()">☰</button>
     <h1>Tarefas</h1>
   </div>
-  <select [(ngModel)]="tema" (change)="mudaTema()"
-    style="display: flex; border-color:white; background-color: var(--cor-app); color:white">
-    <option value="Black">Black</option>
-    <option value="White">White</option>
+  <select [(ngModel)]="tema" (change)="mudaTema()" id="tema">
+    <option value="Dark">Dark</option>
+    <option value="Light">Light</option>
   </select>
 </header>
 
-<div style="display: flex; justify-content:start ;">
+<div id="pagina">
   <section *ngIf="secao">
-    <button routerLinkActive="ativo" routerLink="/tarefas" class="rotas"> <span style="margin:0 2vw 0 1vw;;">📋</span>
+    <!--Arrumar o router link active-->>
+    <button routerLink="/tarefas" routerLinkActive="ativo"> <span class="emoji">📋</span>
       Tarefas</button>
-    <button routerLinkActive="ativo" routerLink="/categoria" class="rotas"> <span
-        style="margin:0 2vw 0 1vw;;">🏷️</span> Categorias</button>
+    <button routerLink="/categoria" routerLinkActive="ativo"> <span class="emoji">🏷️</span>
+      Categorias</button>
   </section>
-  <div style="margin-top:3vh; display: flex; justify-content: center;width: 100%;">
+  <div id="divComponentes">
     <router-outlet (mudarTema)="mudaTema()"></router-outlet>
   </div>
 </div>

@@ -19,22 +19,24 @@
 
     <div *ngIf="pesquisa==''"
       style="min-width:67vw; min-height:4.7vh; display: flex; flex-wrap: wrap;justify-content: center; padding: 1.5vw; margin: 3vh 5.9vw; border: 1px solid var(--cor-app);">
-      <div *ngFor="let cat of categorias; index as indice" class="caixa" [style.background-color]="cat.cor"
-        [style.color]="contraste(cat.cor)">
-        <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea(); muda()"
-          [style.color]="contraste(cat.cor)"></textarea>
+      <div *ngFor="let cat of categorias; index as indice" class="caixa" [style.border-color]="cat.cor"
+        [style.color]="--cor-texto">
+        <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()"
+        (click)="textoAntigoDefine(cat.nome)" (blur)=" muda(indice)"
+          [style.color]="--cor-texto"></textarea>
         <button (click)="delCat(indice)" style="cursor: pointer;" class="del"
-          [style.border-color]="contraste(cat.cor)">🗑️</button>
+          [style.border-color]="--cor-texto">🗑️</button>
       </div>
     </div>
     <div *ngIf="pesquisa!=''"
       style=" display: flex; flex-wrap: wrap;justify-content: center; padding: 1.5vw; margin: 3vh 5.9vw; border: 1px solid var(--cor-app);">
-      <div *ngFor="let cat of listaPesquisa; index as indice" class="caixa" [style.background-color]="cat.cor"
-        [style.color]="contraste(cat.cor)">
-        <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea(); muda()"
-          [style.color]="contraste(cat.cor)"></textarea>
+      <div *ngFor="let cat of listaPesquisa; index as indice" class="caixa" [style.border-color]="cat.cor"
+        [style.color]="--cor-texto">
+        <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()"
+        (click)="textoAntigoDefine(cat.nome)" (blur)=" muda(indice)"
+          [style.color]="--cor-texto"></textarea>
         <button (click)="delCat(indice)" style="cursor: pointer;" class="del"
-          [style.border-color]="contraste(cat.cor)">🗑️</button>
+          [style.border-color]="--cor-texto">🗑️</button>
       </div>
     </div>
   </div>
