@@ -1,43 +1,30 @@
-<div style="display: flex; align-items: center;flex-direction: column; justify-content: center;">
-  <div style="display: flex; align-items: center;flex-direction: column; justify-content: center;">
-    <div style="display: flex; align-items: center; justify-content: center;">
-      <input id="pesquisa" placeholder="🔍 Pesquisa" type="text" [(ngModel)]="pesquisa" (keyup)="pesquisar()">
-      <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
-      <button *ngIf="cadastro" (click)="cadastrar()" class="cadastroBotao">-</button>
-    </div>
-    <div id="cadastro" *ngIf="cadastro">
-      <div style="display: flex; align-items: center; justify-content: center; margin-top: 2vh;">
-        <textarea (input)="tamanhoTextArea()" placeholder="Nome da Categoria" [(ngModel)]="categoriaNome"
-          id="descricao"></textarea>
-          <div style="display: flex; flex-direction: column;">      
-            <input type="color" [(ngModel)]="categoriaCor" id="novaCatCor">
-            <button (click)="cadastrarCat()" class="botoesNovaCat">Cadastrar</button>
-          </div>
-      </div>
-
-    </div>
-
-    <div *ngIf="pesquisa==''"
-      style="min-width:67vw; min-height:4.7vh; display: flex; flex-wrap: wrap;justify-content: center; padding: 1.5vw; margin: 3vh 5.9vw; border: 1px solid var(--cor-app);">
-      <div *ngFor="let cat of categorias; index as indice" class="caixa" [style.border-color]="cat.cor"
-        [style.color]="--cor-texto">
-        <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()"
-        (click)="textoAntigoDefine(cat.nome)" (blur)=" muda(indice)"
-          [style.color]="--cor-texto"></textarea>
-        <button (click)="delCat(indice)" style="cursor: pointer;" class="del"
-          [style.border-color]="--cor-texto">🗑️</button>
-      </div>
-    </div>
-    <div *ngIf="pesquisa!=''"
-      style=" display: flex; flex-wrap: wrap;justify-content: center; padding: 1.5vw; margin: 3vh 5.9vw; border: 1px solid var(--cor-app);">
-      <div *ngFor="let cat of listaPesquisa; index as indice" class="caixa" [style.border-color]="cat.cor"
-        [style.color]="--cor-texto">
-        <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()"
-        (click)="textoAntigoDefine(cat.nome)" (blur)=" muda(indice)"
-          [style.color]="--cor-texto"></textarea>
-        <button (click)="delCat(indice)" style="cursor: pointer;" class="del"
-          [style.border-color]="--cor-texto">🗑️</button>
+<div id="tudo">
+  <div id="pesquisaECadastro">
+    <input id="pesquisa" placeholder="🔍 Pesquisa" type="text" [(ngModel)]="pesquisa" (keyup)="pesquisar()">
+    <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
+    <button *ngIf="cadastro" (click)="cadastrar()" class="cadastroBotao">-</button>
+  </div>
+  <div id="cadastro" *ngIf="cadastro">
+    <div id="cadastro2">
+      <textarea (input)="tamanhoTextArea()" placeholder="Nome da Categoria" [(ngModel)]="categoriaNome" id="descricao"></textarea>
+      <div id="corESubmit">
+        <input type="color" [(ngModel)]="categoriaCor" id="novaCatCor">
+        <button (click)="cadastrarCat()" class="botoesNovaCat">Cadastrar</button>
       </div>
     </div>
   </div>
-  {{tamanhoTextArea()}}
+
+  <div *ngIf="pesquisa==''" class="categorias">
+    <div *ngFor="let cat of categorias; index as indice" class="caixa" [style.border-color]="cat.cor" [style.color]="--cor-texto">
+      <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()" (blur)=" muda(indice)" [style.color]="--cor-texto"></textarea>
+      <button (click)="delCat(indice)" class="del" [style.border-color]="--cor-texto">🗑️</button>
+    </div>
+  </div>
+  <div *ngIf="pesquisa!=''" class="categorias">
+    <div *ngFor="let cat of listaPesquisa; index as indice" class="caixa" [style.border-color]="cat.cor" [style.color]="--cor-texto">
+      <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()" (blur)=" muda(indice)" [style.color]="--cor-texto"></textarea>
+      <button (click)="delCat(indice)" class="del" [style.border-color]="--cor-texto">🗑️</button>
+    </div>
+  </div>
+</div>
+{{tamanhoTextArea()}}

@@ -26,16 +26,16 @@
           <div *ngFor="let Categoria of categorias; index as indiceCat"
             style="flex: 1; display: flex; align-items:baseline; margin-right: 0.1vw;"
             [style.color]="--cor-texto">
-            <div *ngIf="pesquisa==''">
+            <div *ngIf="pesquisa==''" >
               <div class="colunas">
-                <div class="colunas2" [ngStyle]="{'border': '1px solid ' + Categoria.cor}">
-                  <div style="display: flex; justify-content: center;">
+                <div class="colunas2" (dragover)="mudaBloqueio($event)" [ngStyle]="{'border': '1px solid ' + Categoria.cor}" id="{{Categoria.nome}}">
+                  <div style="display: flex; justify-content: center;" >
                     <h2 [style.color]="--cor-texto">{{Categoria.nome}}</h2>
                   </div>
 
-                  <div *ngFor="let Tarefa of Tarefas; index as indice" s>
-                    <div *ngIf="Tarefa.categoria == Categoria.nome" class="caixaTarefa"
-                      [style.color]="--cor-texto" [style.boxShadow]="'1px 1px 10px 2px ' +Categoria.cor">
+                  <div *ngFor="let Tarefa of Tarefas; index as indice">
+                    <div *ngIf="Tarefa.categoria == Categoria.nome" class="caixaTarefa" draggable="true" (dragend)="mudarCatDrag($event, Tarefa)"
+                      [style.color]="--cor-texto" [style.boxShadow]="'1px 1px 10px 2px ' + Categoria.cor" >
                       <textarea [(ngModel)]="Tarefa.titulo" class="textA" [style.color]="--cor-texto"
                         (input)="tamanhoTextArea(); muda()"
                         style="font-size: 1em; text-align: center; font-weight: bold;"></textarea>

@@ -166,6 +166,17 @@ div {
     width: 23vw;
 }
 
+#pesquisaECadstro{
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+#tudo{
+    display:block;
+     text-align:center;
+}
+
 .caixaTarefa {
     display: block;
     width: 20vw;

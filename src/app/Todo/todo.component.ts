@@ -115,4 +115,30 @@ export class TodoComponent implements OnInit {
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
 
+  mudarCatDrag(event:any, tarefa:Tarefa):void{
+    let colunas = this.el.nativeElement.querySelectorAll(".colunas2")
+    for(let coluna of colunas){
+      let posicao = coluna.getBoundingClientRect();
+      if(event.screenX > posicao.left){
+        tarefa.categoria = coluna.id;
+      }
+    }
+
+    let tarefas = this.el.nativeElement.querySelectorAll(".caixaTarefa")
+    for(let tarefaFor of tarefas){
+      let posicao = tarefaFor.getBoundingClientRect();
+      if(event.screenY < posicao.top){
+        this.Tarefas.splice(this.Tarefas.indexOf(tarefa), 1);
+        this.Tarefas.splice(this.Tarefas.indexOf(tarefaFor), 0, tarefa);
+        break
+      } 
+    }
+    localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
+  }
+
+  
+
+  mudaBloqueio(event:any):void{
+    event.preventDefault();
+  }
 }

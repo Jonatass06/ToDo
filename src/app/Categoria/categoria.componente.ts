@@ -1,4 +1,4 @@
-import { Component, ElementRef, Output, Renderer2, EventEmitter } from "@angular/core";
+import { Component, ElementRef } from "@angular/core";
 
 interface Categoria {
     nome: string,
@@ -12,14 +12,19 @@ interface Categoria {
 
 export class CategoriaComponent {
 
+    //aparece barra de cadastro ou não
     cadastro: boolean = false;
+    //referentes a pesquisa de categorias
     listaPesquisa: Categoria[] = [];
     pesquisa: string = ''
+    //referentes ao cadastro e persistencia de novas categorias
     categorias: Categoria[] = [];
     categoriaNome: string = '';
-    categoriaCor: string = 'rgba(144, 0, 240, 0.863)';
+    categoriaCor: string = 'purple';
 
+    constructor(private el: ElementRef) { }
 
+    //define o contraste da cor do texto e do fundo
     contraste(cor: string): string {
         const r = parseInt(cor.substr(1, 2), 16)
         const g = parseInt(cor.substr(3, 2), 16)
@@ -27,6 +32,8 @@ export class CategoriaComponent {
         const luz = 0.2126 * r + 0.7152 * g + 0.0722 * b
         return luz > 128 ? '#000' : '#fff'
     }
+
+    //mostra a barra de cadastro
     cadastrar(): void {
         if (!this.cadastro) {
             this.cadastro = true;
@@ -53,11 +60,20 @@ export class CategoriaComponent {
         }
     }
 
-
     //deleta categoria e as tarefas com aquela categoria
     delCat(indice: number) {
+        let tarefas:any[];
+        if (localStorage.getItem("listaTarefas") != null) {
+            tarefas = (JSON.parse(localStorage.getItem("listaTarefas")));
+        }
+        for(let tarefa of tarefas){
+            if(tarefa.categoria == this.categorias[indice].nome){
+                tarefas.splice(tarefas.indexOf(tarefa));
+            }
+        }
         this.categorias.splice(indice, 1);
         localStorage.setItem("categorias", JSON.stringify(this.categorias));
+        localStorage.setItem("listaTarefas", JSON.stringify(tarefas));
     }
 
     //cadastra categoria
@@ -69,11 +85,8 @@ export class CategoriaComponent {
             }
         }
         if (this.categoriaNome != "" && permissao) {
-
             let categoriaParaCadastro: Categoria = { nome: this.categoriaNome };
-            if (this.categoriaCor != "") {
-                categoriaParaCadastro = { nome: this.categoriaNome, cor: this.categoriaCor };
-            }
+            categoriaParaCadastro = { nome: this.categoriaNome, cor: this.categoriaCor };
             this.categorias.push(categoriaParaCadastro);
             localStorage.setItem('categorias', JSON.stringify(this.categorias));
             this.categoriaNome = '';
@@ -83,17 +96,12 @@ export class CategoriaComponent {
         }
     }
 
-    textoAntigo:string;
-    textoAntigoDefine(texto){
-        this.textoAntigo = texto;
-    }
-
     //muda o nome da categoria
     muda(indice:number): void {
         localStorage.setItem('categorias', JSON.stringify(this.categorias));
     }
 
-    constructor(private renderer: Renderer2, private el: ElementRef) { }
+    //define a altura de todos os textarea
     tamanhoTextArea(): void {
         for (let textarea of this.el.nativeElement.querySelectorAll("textarea")) {
             textarea.style.height = 'auto';

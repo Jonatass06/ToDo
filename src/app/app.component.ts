@@ -1,5 +1,5 @@
-import { Component, OnInit, Renderer2, ElementRef, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit , ElementRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-root',
@@ -9,10 +9,13 @@ import { ActivatedRoute } from '@angular/router';
 
 export class AppComponent implements OnInit {
 
+  //faz aparecer o menu lateral
   secao: boolean = true;
+  //muda o tema do site
   tema: string;
   corTexto: string;
-  constructor(private renderer: Renderer2, private el: ElementRef, private route: ActivatedRoute) { }
+
+  constructor(private el: ElementRef) { }
 
   //faz o menu aparecer ou desaparecer
   menu(): void {
@@ -49,6 +52,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem("tema", this.tema);
   }
 
+  //serve para definir a cor de texto contrastante com a de fundo
   contraste(cor: string): string {
     const r = parseInt(String(cor).substr(1, 2), 16);
     const g = parseInt(String(cor).substr(3, 2), 16);
