@@ -1,6 +1,5 @@
 <div id="tudo">
   <div id="pesquisaECadastro">
-    <input id="pesquisa" placeholder="🔍 Pesquisa" type="text" [(ngModel)]="pesquisa" (keyup)="pesquisar()">
     <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
     <button *ngIf="cadastro" (click)="cadastrar()" class="cadastroBotao">-</button>
   </div>
@@ -16,13 +15,7 @@
 
   <div *ngIf="pesquisa==''" class="categorias">
     <div *ngFor="let cat of categorias; index as indice" class="caixa" [style.border-color]="cat.cor" [style.color]="--cor-texto">
-      <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()" (blur)=" muda(indice)" [style.color]="--cor-texto"></textarea>
-      <button (click)="delCat(indice)" class="del" [style.border-color]="--cor-texto">🗑️</button>
-    </div>
-  </div>
-  <div *ngIf="pesquisa!=''" class="categorias">
-    <div *ngFor="let cat of listaPesquisa; index as indice" class="caixa" [style.border-color]="cat.cor" [style.color]="--cor-texto">
-      <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()" (blur)=" muda(indice)" [style.color]="--cor-texto"></textarea>
+      <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()" (click)="defineAntigaCategoria(cat)" (blur)=" muda(indice)" [style.color]="--cor-texto"></textarea>
       <button (click)="delCat(indice)" class="del" [style.border-color]="--cor-texto">🗑️</button>
     </div>
   </div>

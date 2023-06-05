@@ -1,87 +1,51 @@
 <body>
-  <div style="display:block; text-align:center;">
-    <div style="display: flex; align-items: center; justify-content: center;">
-      <input id="pesquisa" placeholder="🔍 Pesquisa" type="text" [(ngModel)]="pesquisa" (keyup)="pesquisar()">
-      <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
-      <button *ngIf="cadastro" (click)="cadastrar()" class="cadastroBotao">-</button>
-    </div>
+  <div id="tudo">
+    <!--Parte dos inputs de cadstro-->
     <div id="cadastro" *ngIf="cadastro">
-      <div style="display: flex; align-items: center; justify-content: center;">
-        <input placeholder="Título" [(ngModel)]="tarefa.titulo" id="titulo">
-        <select required [(ngModel)]="tarefa.categoria" id="categoria">
+      <div id="cadastro2">
+        <input placeholder="Título" [(ngModel)]="tarefaCadastro.titulo" id="titulo">
+        <select required [(ngModel)]="tarefaCadastro.categoria" id="categoria">
           <option value="" disabled selected>--Categoria--</option>
-          <option *ngFor="let Categoria of categorias" [value]="Categoria.nome">{{Categoria.nome}}</option>
+          <option *ngFor="let categoria of categorias" [value]="categoria.nome">
+            {{categoria.nome}}
+          </option>
         </select>
         <button (click)="CadastrarTarefa()" id="enviar">Cadastrar</button>
       </div>
-      <textarea (input)="tamanhoTextArea()" placeholder="Descrição" [(ngModel)]="tarefa.texto"
+      <textarea (input)="tamanhoTextArea()" placeholder="Descrição" [(ngModel)]="tarefaCadastro.texto"
         id="descricao"></textarea>
     </div>
+    <!--quadrado com borda roxa-->
     <div id="divPai">
-
       <div id="scrollBar">
-
-        <div style="transform: rotateX(180deg); display: flex; align-items:stretch; height: 100%;">
-
-          <div *ngFor="let Categoria of categorias; index as indiceCat"
-            style="flex: 1; display: flex; align-items:baseline; margin-right: 0.1vw;"
-            [style.color]="--cor-texto">
-            <div *ngIf="pesquisa==''" >
-              <div class="colunas">
-                <div class="colunas2" (dragover)="mudaBloqueio($event)" [ngStyle]="{'border': '1px solid ' + Categoria.cor}" id="{{Categoria.nome}}">
-                  <div style="display: flex; justify-content: center;" >
-                    <h2 [style.color]="--cor-texto">{{Categoria.nome}}</h2>
-                  </div>
-
-                  <div *ngFor="let Tarefa of Tarefas; index as indice">
-                    <div *ngIf="Tarefa.categoria == Categoria.nome" class="caixaTarefa" draggable="true" (dragend)="mudarCatDrag($event, Tarefa)"
-                      [style.color]="--cor-texto" [style.boxShadow]="'1px 1px 10px 2px ' + Categoria.cor" >
-                      <textarea [(ngModel)]="Tarefa.titulo" class="textA" [style.color]="--cor-texto"
-                        (input)="tamanhoTextArea(); muda()"
-                        style="font-size: 1em; text-align: center; font-weight: bold;"></textarea>
-                      <textarea class="textA" (input)="tamanhoTextArea(); muda()" [style.color]="--cor-texto"
-                        [(ngModel)]="Tarefa.texto">
-                      </textarea>
-
-                      <div class="opcoes">
-                        <select [(ngModel)]="Tarefa.categoria" (change)="muda()" class="trocaCat"
-                          [style.color]="--cor-texto" [style.border-color]="Categoria.cor">
-                          <option style="background-color: var(--cor-fundo);" *ngFor="let Categoria of categorias"
-                            [value]="Categoria.nome">{{Categoria.nome}}
-                          </option>
-                        </select>
-                        <button (click)="Del(indice)" class="trocaCatB"
-                          [style.border-color]="Categoria.cor">🗑️</button>
-                      </div>
-                    </div>
-                  </div>
+        <div id="inverte">
+          <!--parte das colunas de cada categoria-->
+          <div *ngFor="let categoria of categorias; index as indiceCat" (dragover)="defineCategoriaAbaixo(categoria)"
+            class="categoria">
+            <div class="colunas">
+              <div class="colunas2" (dragover)="mudaBloqueio($event)"
+                [ngStyle]="{'border': '1px solid ' + categoria.cor}" id="{{categoria.nome}}">
+                <!--nome da categoria-->
+                <div class="tituloDiv">
+                  <h2>{{categoria.nome}}</h2>
                 </div>
-              </div>
-            </div>
-            <div *ngIf="pesquisa!=''">
-              <div class="colunas">
-                <div class="colunas2" [ngStyle]="{'border': '1px solid ' + Categoria.cor}">
-                  <h2>{{ Categoria.nome }}</h2>
-                  <div *ngFor="let pesquisas of listaPesquisa">
-                    <div *ngIf="pesquisas.categoria == Categoria.nome" class="caixaTarefa"
-                      [style.color]="--cor-texto" [style.boxShadow]="'1px 1px 10px 2px ' +Categoria.cor">
-                      <textarea class="textA" [(ngModel)]="pesquisas.titulo" [style.color]="--cor-texto"
-                        (input)="tamanhoTextArea(); muda()"
-                        style="font-size: 1em; text-align: center; font-weight: bold;"></textarea>
-                      <textarea class="textA" (input)="tamanhoTextArea(); muda()" [style.color]="--cor-texto"
-                        [(ngModel)]="pesquisas.texto">
-                      </textarea>
-
-                      <div class="opcoes">
-                        <select [(ngModel)]="pesquisas.categoria" (change)="muda()" class="trocaCat"
-                          [style.color]="--cor-texto" [style.border-color]="Categoria.cor">
-                          <option style="background-color: var(--cor-fundo);" *ngFor="let Categoria of categorias"
-                            [value]="Categoria.nome">{{Categoria.nome}}
-                          </option>
-                        </select>
-                        <button (click)="Del(indice)" class="trocaCatB"
-                          [style.border-color]="Categoria.cor">🗑️</button>
-                      </div>
+                <!--Parte das tarefas-->
+                <div *ngFor="let tarefa of Tarefas; index as indice" (dragover)="defineTarefaAbaixo(tarefa, $event)">
+                  <div *ngIf="tarefa.categoria == categoria.nome" class="caixaTarefa" draggable="true"
+                    (dragend)="mudarCatDrag(tarefa)" [style.boxShadow]="'1px 1px 10px 2px ' + categoria.cor">
+                    <textarea [(ngModel)]="tarefa.titulo" class="textA" (input)="tamanhoTextArea(); muda()">
+                    </textarea>
+                    <textarea class="textA" (input)="tamanhoTextArea(); muda()" [(ngModel)]="tarefa.texto">
+                    </textarea>
+                    <!--opcoes inferiores de cada tarefa-->
+                    <div class="opcoes">
+                      <select [(ngModel)]="tarefa.categoria" (change)="muda()" class="trocaCat"
+                        [style.border-color]="categoria.cor">
+                        <option *ngFor="let categoria of categorias" [value]="categoria.nome">
+                          {{categoria.nome}}
+                        </option>
+                      </select>
+                      <button (click)="Del(indice)" class="del" [style.border-color]="categoria.cor">🗑️</button>
                     </div>
                   </div>
                 </div>
@@ -90,7 +54,13 @@
           </div>
         </div>
       </div>
+      <!--botão de adicionar tarefa-->
+      <div id="divBotaoCadastrar">
+        <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
+        <button *ngIf="cadastro" (click)="cadastrar()" class="cadastroBotao">-</button>
+      </div>
     </div>
   </div>
 </body>
+
 {{tamanhoTextArea()}}

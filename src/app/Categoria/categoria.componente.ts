@@ -5,6 +5,13 @@ interface Categoria {
     cor?: string
 }
 
+
+interface Tarefa {
+    texto: string,
+    categoria: string,
+    titulo: string
+  }
+
 @Component({
     templateUrl: './categoria.component.html',
     styleUrls: ['./categoria.component.css']
@@ -21,6 +28,7 @@ export class CategoriaComponent {
     categorias: Categoria[] = [];
     categoriaNome: string = '';
     categoriaCor: string = 'purple';
+    antigaCategoria:Categoria;
 
     constructor(private el: ElementRef) { }
 
@@ -96,9 +104,25 @@ export class CategoriaComponent {
         }
     }
 
+    defineAntigaCategoria(categoria:Categoria):void{
+        this.antigaCategoria = {nome:categoria.nome, cor: categoria.cor};
+    }
     //muda o nome da categoria
     muda(indice:number): void {
+        let tarefas:Tarefa[];
+        if (localStorage.getItem("listaTarefas") != null) {
+            tarefas = (JSON.parse(localStorage.getItem("listaTarefas")));
+        }
+        console.log(this.antigaCategoria.nome)
+        console.log(this.categorias[indice])
+        for(let tarefa of tarefas){
+            if(tarefa.categoria == this.antigaCategoria.nome){
+                tarefa.categoria = this.categorias[indice].nome;
+            }
+        }
         localStorage.setItem('categorias', JSON.stringify(this.categorias));
+        localStorage.setItem('listaTarefas', JSON.stringify(tarefas))
+
     }
 
     //define a altura de todos os textarea

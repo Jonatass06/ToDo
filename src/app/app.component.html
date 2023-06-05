@@ -1,8 +1,13 @@
 <header>
+  <!--Cabeçalho-->
   <div id="divHeader">
     <button id="menu" (click)="menu()">☰</button>
     <h1>Tarefas</h1>
   </div>
+  <div id="divPesquisa">
+    <input id="pesquisa" placeholder="🔍 Pesquisa" type="text" [(ngModel)]="pesquisa" (keyup)="pesquisando(); parouPesquisa()">
+  </div>
+  <!--Tema-->
   <select [(ngModel)]="tema" (change)="mudaTema()" id="tema">
     <option value="Dark">Dark</option>
     <option value="Light">Light</option>
@@ -10,14 +15,16 @@
 </header>
 
 <div id="pagina">
+  <!--Menu Lateral-->
   <section *ngIf="secao">
     <!--Arrumar o router link active-->>
-    <button routerLink="/tarefas" routerLinkActive="ativo"> <span class="emoji">📋</span>
+    <button routerLink="/tarefas" routerLinkActive="ativo" (click)="pesquisa=''"> <span class="emoji">📋</span>
       Tarefas</button>
-    <button routerLink="/categoria" routerLinkActive="ativo"> <span class="emoji">🏷️</span>
+    <button routerLink="/categoria" routerLinkActive="ativo" (click)="pesquisa=''"> <span class="emoji">🏷️</span>
       Categorias</button>
   </section>
+  <!--Componentes-->
   <div id="divComponentes">
-    <router-outlet (mudarTema)="mudaTema()"></router-outlet>
+    <router-outlet></router-outlet>
   </div>
 </div>

@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { AppRountingModule } from './app-routing.module';
 import { CategoriaModule } from './Categoria/categoria.module';
 import { TodoModule } from './Todo/todo.module';
+import { PesquisaModule } from './Pesquisa/pesquisa.module';
+
 
 @NgModule({
   declarations: [
@@ -15,7 +17,8 @@ import { TodoModule } from './Todo/todo.module';
     FormsModule,
     AppRountingModule,
     CategoriaModule,
-    TodoModule
+    TodoModule,
+    PesquisaModule
   ],
   bootstrap: [AppComponent]
 })

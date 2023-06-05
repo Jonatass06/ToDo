@@ -1,19 +1,15 @@
-/*Titulo de cada categoria*/
 h2 {
     font-size: 1.3em;
-    color: var(--cor-texto)
 }
 
-/*quadrado em volta das categorias e das tarefas*/
 #divPai {
     border: 0.1em solid var(--cor-app);
     margin-top: 5vh;
-    padding: 1vh 1vw 5vh 5vw;
+    padding: 1vh 5vw 5vh 5vw;
     padding-top: 4vh;
     margin: 3vh 5vw
 }
 
-/*botao que mostra os imputs de cadastro*/
 #botaoAdicionar {
     margin-left: 0.5em;
     font-size: 2em;
@@ -21,7 +17,6 @@ h2 {
     text-shadow: -0.01rem -0.1rem 0 #ffffff, 0.01rem -0.01rem 0 #ffffff, -0.01rem 0.01rem 0 #ffffff, 0.01rem 0.01rem 0 #ffffff;
 }
 
-/*estilização do quadrado da scrollbar*/
 #scrollBar {
     overflow: auto;
     width: 60vw;
@@ -30,7 +25,6 @@ h2 {
     padding-bottom: 1vh;
 }
 
-/*estilização da scrollbar*/
 #scrollBar::-webkit-scrollbar {
     width: 0.1vw;
     height: 1vh;
@@ -54,56 +48,44 @@ h2 {
     background-color: var(--cor-app)
 }
 
-/*input de titulo de tarefa*/
+
+#novaCat {
+    width: 7.8vw;
+    color: var(--cor-texto);
+    border-color: var(--cor-texto);
+    padding: 0 1vw 0 1vw;
+    font-size: 0.8em;
+
+}
+
 #titulo {
     width: 19vw;
     height: 5vh;
 
 }
 
-/*estilização de textareas das tarefas*/
 .textA {
-    width: 17vw;
-    resize: none;
-    border: none;
-    font-size: 0.8em;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: var(--cor-texto);
     font-size: 1em;
     text-align: center;
     font-weight: bold;
+    background-color: rgba(0, 0, 0, 0);
+    width: 18vw;
+    resize: none;
+    border: none;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/*botão de cadastrar*/
 #enviar {
     width: 8vw;
     height: 5.51vh;
-    color: var(--cor-app)
+    color:var(--cor-app)
 }
 
-/*select de categorias*/
 #categoria {
     width: 8vw;
     height: 5.51vh;
-
 }
 
-/*div do titulo de cada categoria*/
-.tituloDiv {
-    display: flex;
-    justify-content: center;
-}
-
-/*colunas de cada categoria*/
-.categoria {
-    flex: 1;
-    display: flex;
-    align-items: baseline;
-    margin-right: 0.1vw;
-    color: var(--cor-texto)
-}
-
-/*estilização global de inputs e textareas*/
 input,
 textarea {
     font-size: 1rem;
@@ -112,13 +94,9 @@ textarea {
     border: 1px solid;
     border-color: var(--cor-texto);
 }
-
-/*estilização global de inputs*/
-input {
+input{
     padding-left: 1vw;
 }
-
-/*estilização global de select*/
 select {
     appearance: none;
     padding: 0.5em;
@@ -129,54 +107,98 @@ select {
     cursor: pointer;
 }
 
-/*estilização global de options*/
 select option {
     text-align: center;
     color: var(--cor-texto);
 }
 
-/*div de cadastro que aparece e desaparece*/
+#pesquisa {
+    border-color: var(--cor-app);
+    width: 30vw;
+    height: 4.5vh;
+    border-radius: 50px;
+}
+
 #cadastro {
     display: block;
     justify-content: center;
     margin-top: 2vh;
 }
 
-/*inputs de cadastro*/
 #cadastro>*>* {
     font-size: 1rem;
 }
 
-/*placeholder geral*/
 ::placeholder {
     color: var(--cor-texto);
 }
 
-/*corpo geral do componente tarefas*/
 body {
     width: 100%;
     height: 100%;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0;
     text-align: center;
-    color: var(--cor-texto);
 }
 
-/*divs em geral*/
+main {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
 div {
     display: flex;
     align-items: center;
 }
 
-/*parte das colunas de cada categoria*/
+
+#tudo {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.caixa {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    border: 1px solid var(--cor-app);
+    text-justify: inter-word;
+    width: 18vw;
+    border: 1px solid var(--cor-fundo)
+}
+.del {
+    cursor: pointer;
+    border: 1px solid white;
+    height: 3.7vh;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+}
 .colunas {
     width: 23vw;
     justify-content: center;
     margin-right: 1px;
     flex-grow: 1;
 }
+.categorias {
+    min-width: 67vw;
+    min-height: 4.7vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1.5vw;
+    margin: 3vh 5.9vw;
+    border: 1px solid var(--cor-app);
+}
 
-/*parte interna das colunas de cada categoria*/
 .colunas2 {
     display: flex;
     flex-direction: column;
@@ -184,73 +206,43 @@ div {
     width: 23vw;
 }
 
-/*parte interior de cadastro*/
-#cadastro2 {
-    display: flex;
-    align-items: center;
+#pesquisaECadstro{
+    display: flex; 
+    align-items: center; 
     justify-content: center;
 }
 
-/*parte que ajuda a inverter o scrolbar*/
-#inverte {
-    transform: rotateX(180deg);
-    display: flex;
-    align-items: stretch;
-    height: 100%;
+#tudo{
+    display:block;
+     text-align:center;
 }
 
-/*div geral*/
-#tudo {
-    display: block;
-    text-align: center;
-}
-
-/*div onde esta o botao de mostrar cadastro*/
-#divBotaoCadastrar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 8vw;
-}
-
-/*caixa de cada tarefa*/
 .caixaTarefa {
     display: block;
     width: 20vw;
     word-wrap: break-word;
-    border: 0.01rem;
+    border: 0.01rem ;
     margin: 0.5vh;
     margin-bottom: 2vh;
-    color: var(--cor-texto)
 }
 
-/*select de trocar categoria de tarefa*/
 .trocaCat {
     background-color: rgba(0, 0, 0, 0);
     border-color: white;
     height: 5vh;
-    color: var(--cor-texto)
 }
 
-/*options em geral*/
-option {
-    background-color: var(--cor-fundo);
-}
-
-/*select invalido, basicamente o place holder do select*/
 select:invalid {
     color: var(--cor-app)
 }
 
-/*placeholder de inputs e textareas em geral*/
 input::placeholder,
 textarea::placeholder {
     color: var(--cor-app);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/*botao de deletar tarefa*/
-.del {
+.trocaCatB {
     border: 1px solid white;
     height: 3.7vh;
     display: flex;
@@ -259,11 +251,10 @@ textarea::placeholder {
     height: 5vh;
 }
 
-.del:hover {
+.trocaCatB:hover {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-/*botoes de mostrar cadastro ou nao*/
 .cadastroBotao {
     font-size: 2em;
     border: 1px solid var(--cor-texto);
@@ -280,13 +271,11 @@ textarea::placeholder {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-/*hover geral dos botoes*/
 button:hover {
     background-color: var(--cor-app);
     cursor: pointer;
 }
 
-/*input de descricao de cadastro de tarefa*/
 #descricao {
     text-align: left;
     resize: none;
@@ -296,14 +285,16 @@ button:hover {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-/*opcoes iferiores de cada caixa de tarefa*/
 .opcoes {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/*botoes em geral*/
+.botao:hover {
+    background-color: var(--cor-fundo);
+}
+
 button {
     background-color: var(--cor-fundo);
     color: var(--cor-texto);

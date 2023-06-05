@@ -1,0 +1,58 @@
+<body *ngIf="paginaAnterior=='/tarefas'">
+  <div style="display:block; text-align:center;">
+    <div id="divPai">
+
+      <div id="scrollBar">
+        <div style="transform: rotateX(180deg); display: flex; align-items:stretch; height: 100%;">
+
+          <div *ngFor="let Categoria of categorias; index as indiceCat"
+            style="flex: 1; display: flex; align-items:baseline; margin-right: 0.1vw;" [style.color]="--cor-texto"
+            (dragover)="defineCategoriaAbaixo(Categoria)">
+            <div>
+              <div class="colunas">
+                <div class="colunas2" [ngStyle]="{'border': '1px solid ' + Categoria.cor}">
+                  <h2>{{Categoria.nome}}</h2>
+                  <div *ngFor="let tarefa of pesquisas; index as indice" (dragover)="defineTarefaAbaixo(tarefa, $event)">
+                    <div *ngIf="tarefa.categoria == Categoria.nome" class="caixaTarefa" draggable="true" 
+                      (dragend)="mudarCatDrag(tarefa)" [style.color]="--cor-texto"
+                      [style.boxShadow]="'1px 1px 10px 2px ' +Categoria.cor">
+                      <textarea class="textA" [(ngModel)]="tarefa.titulo" [style.color]="--cor-texto"  [disabled]="true"
+                        (input)="tamanhoTextArea()" (blur)="muda(indice, $event)"
+                        style="font-size: 1em; text-align: center; font-weight: bold;"></textarea>
+                      <textarea class="textA" (input)="tamanhoTextArea()" [style.color]="--cor-texto"  [disabled]="true"
+                        [(ngModel)]="tarefa.texto" (blur)="muda(indice, $event)">
+                      </textarea>
+                      <div class="opcoes">
+                        <select [(ngModel)]="tarefa.categoria" (change)="muda(indice, $event)" class="trocaCat"
+                          [style.color]="--cor-texto" [style.border-color]="Categoria.cor" (click)="defineAntigaTarefa(tarefa, $event)">
+                          <option style="background-color: var(--cor-fundo);" *ngFor="let Categoria of categorias"
+                            [value]="Categoria.nome">{{Categoria.nome}}
+                          </option>
+                        </select>
+                        <button (click)="Del(indice)" class="trocaCatB"
+                          [style.border-color]="Categoria.cor">🗑️</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+<div id="tudo">
+  <div *ngIf="paginaAnterior=='/categoria'" class="categorias">
+
+    <div *ngFor="let cat of pesquisas; index as indice" class="caixa" [style.border-color]="cat.cor"
+      [style.color]="--cor-texto">
+      <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()" (dblclick)="defineAntigaCategoria(cat, $event)" (blur)="muda(indice, $event)"
+        [style.color]="--cor-texto" disabled="true"></textarea>
+      <button (click)="delCat(indice)" class="del" [style.border-color]="--cor-texto">🗑️</button>
+    </div>
+  </div>
+</div>
+{{tamanhoTextArea()}}

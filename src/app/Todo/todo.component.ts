@@ -18,44 +18,44 @@ interface Categoria {
 
 export class TodoComponent implements OnInit {
 
-  tarefa: Tarefa = {
+  //tarefa usada para cadastro
+  tarefaCadastro: Tarefa = {
     texto: "",
     categoria: "",
     titulo: ""
   }
 
+  //lista de tarefas
   Tarefas: Tarefa[] = [];
 
-  @Output()
-  mudarTema = new EventEmitter
-
-  mudaTema(): void {
-    this.mudarTema.emit();
-  }
+  //variavel que faz aparecer inputs de cadastro
   cadastro: boolean = false;
-  adicione: boolean = false;
+  //lista de categorias
   categorias: Categoria[] = [];
+
+  //pesquisa
   listaPesquisa: Tarefa[] = [];
   pesquisa: string = ''
 
+  //referentes ao drag
+  tarefaAbaixo: Tarefa;
+  categoriaAbaixo: Categoria;
+
+  constructor(private el: ElementRef) { }
+
   ngOnInit() {
 
+    //pega a lista de categorias
     if (localStorage.getItem("categorias") != null) {
       this.categorias = (JSON.parse(localStorage.getItem("categorias")));
     }
+    //pega a lista de tarefas
     if (localStorage.getItem("listaTarefas") != null) {
       this.Tarefas = JSON.parse(localStorage.getItem("listaTarefas"));
     }
   }
 
-  contraste(cor: string): string {
-    const r = parseInt(String(cor).substr(1, 2), 16);
-    const g = parseInt(String(cor).substr(3, 2), 16);
-    const b = parseInt(String(cor).substr(5, 2), 16);
-    const luz = 0.2126 * r + 0.7152 * g + 0.0722 * b
-    return luz > 128 ? '#000' : '#fff'
-  }
-
+  //definem o tamanho das textareas para o tamanho da string interior
   tamanhoTextArea(): void {
     for (let textarea of this.el.nativeElement.querySelectorAll("textarea")) {
       textarea.style.height = 'auto';
@@ -64,13 +64,7 @@ export class TodoComponent implements OnInit {
     this.pesquisar()
   }
 
-  constructor(private renderer: Renderer2, private el: ElementRef) { }
-
-  proFinal(): void {
-    const div = this.el.nativeElement.querySelector('#scrollBar');
-    div.scrollLeft = div.scrollWidth;
-  }
-
+  //mostra ou esconde os inputs de cadastro
   cadastrar(): void {
     if (!this.cadastro) {
       this.cadastro = true;
@@ -79,23 +73,25 @@ export class TodoComponent implements OnInit {
     }
   }
 
+  //metodo de cadastro de tarefas
   CadastrarTarefa(): void {
-    if (this.tarefa.titulo == "" && this.tarefa.texto == "" || this.tarefa.categoria == "") { }
+    if (this.tarefaCadastro.titulo == "" && this.tarefaCadastro.texto == "" || this.tarefaCadastro.categoria == "") { }
     else {
       const TarefaInserida: Tarefa = {
-        texto: this.tarefa.texto,
-        categoria: this.tarefa.categoria,
-        titulo: this.tarefa.titulo
+        texto: this.tarefaCadastro.texto,
+        categoria: this.tarefaCadastro.categoria,
+        titulo: this.tarefaCadastro.titulo
       }
       this.Tarefas.push(TarefaInserida);
-      this.tarefa.texto = "";
-      this.tarefa.categoria = "";
-      this.tarefa.titulo = "";
+      this.tarefaCadastro.texto = "";
+      this.tarefaCadastro.categoria = "";
+      this.tarefaCadastro.titulo = "";
       localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
       this.cadastro = false
     }
   }
 
+  //metodo de pesquisar
   pesquisar(): void {
     this.listaPesquisa = [];
     for (let tarefa of this.Tarefas) {
@@ -106,39 +102,46 @@ export class TodoComponent implements OnInit {
     }
   }
 
+  // metodo para deletar uma tarefa
   Del(indice: number) {
     this.Tarefas.splice(indice, 1);
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
-  muda(): void {
 
+  //metodo que muda o conteudo de uma textarea
+  muda(): void {
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
 
-  mudarCatDrag(event:any, tarefa:Tarefa):void{
-    let colunas = this.el.nativeElement.querySelectorAll(".colunas2")
-    for(let coluna of colunas){
-      let posicao = coluna.getBoundingClientRect();
-      if(event.screenX > posicao.left){
-        tarefa.categoria = coluna.id;
+  // define a tarefa abaixo do drag
+  defineTarefaAbaixo(tarefa: Tarefa, event: DragEvent): void {
+    this.tarefaAbaixo = tarefa;
+  }
+
+  // define a categoria abaixo do drag
+  defineCategoriaAbaixo(categoria: Categoria): void {
+    this.categoriaAbaixo = categoria;
+  }
+
+  // muda a categoria e a ordem da tarefa
+  mudarCatDrag(tarefa: Tarefa): void {
+    if (this.categoriaAbaixo.nome != "") {
+      tarefa.categoria = this.categoriaAbaixo.nome;
+    }
+    if (this.tarefaAbaixo != null) {
+      if (this.Tarefas.indexOf(tarefa) < this.Tarefas.indexOf(this.tarefaAbaixo)) {
+        this.Tarefas.splice(this.Tarefas.indexOf(tarefa), 1);
+        this.Tarefas.splice(this.Tarefas.indexOf(this.tarefaAbaixo) + 1, 0, tarefa);
+      } else {
+        this.Tarefas.splice(this.Tarefas.indexOf(tarefa), 1);
+        this.Tarefas.splice((this.Tarefas.indexOf(this.tarefaAbaixo)), 0, tarefa);
       }
     }
-
-    let tarefas = this.el.nativeElement.querySelectorAll(".caixaTarefa")
-    for(let tarefaFor of tarefas){
-      let posicao = tarefaFor.getBoundingClientRect();
-      if(event.screenY < posicao.top){
-        this.Tarefas.splice(this.Tarefas.indexOf(tarefa), 1);
-        this.Tarefas.splice(this.Tarefas.indexOf(tarefaFor), 0, tarefa);
-        break
-      } 
-    }
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
 
-  
-
-  mudaBloqueio(event:any):void{
+  //muda o indicador de bloqueio do drag 
+  mudaBloqueio(event: any): void {
     event.preventDefault();
   }
 }

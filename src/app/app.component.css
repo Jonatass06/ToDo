@@ -1,8 +1,10 @@
+/*Manu Lateral*/
 section {
     flex-direction: column;
     margin-top: 1vh;
     width: 19vw;
 }
+/*Manu Lateral e Cabecalho*/
 section,
 header {
     display: flex;
@@ -11,38 +13,56 @@ header {
     text-align: center;
     color: var(--cor-contraste);
 }
+/*Div Do Cabecalho*/
 #divHeader{
     display: flex; 
     align-items: center;
+    
 }
-
+/*Cabecalho*/
 header {
     background-color: var(--cor-app);
     justify-content: space-between;
     height: 4vh;
-    padding: 1em;
-    width: 97.7vw;
+    padding: 1vw;
+    padding-right: 6vw;
 }
 
+/*Select do Tema */
 #tema{
-    display: flex; 
     border-color:var(--cor-contraste); 
-    background-color: var(--cor-app); 
     color:var(--cor-contraste);
+    appearance: none;
+    padding: 0.5em;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    margin-right: 3vw;
+    font-size: 0.8em;
 }
 
+/*Opcoes do select*/
+select option {
+    text-align: center;
+    color: var(--cor-contraste);
+    background-color: var(--cor-app);
+}
 
+/*Emoji das opcoes do menu*/
 .emoji{
     margin:0 2vw 0 1vw;
 }
 
-#pagina, #divComponentes{
+/*Parte da pagina em si */
+#pagina{
     display: flex; 
     justify-content:start ;
 }
+/*os componentes*/
 #divComponentes{
+    display: flex; 
     margin-top:3vh; 
     width: 100%;
+    justify-content:center ;
 }
 
 /*Botão de expansão do menu lateral*/
@@ -55,6 +75,29 @@ header {
     cursor: pointer;
 }
 
+/*Pesquisa*/
+#pesquisa {
+    border-color: var(--cor-contraste);
+    background-color: rgba(0, 0, 0, 0);
+    width: 30vw;
+    height: 4.5vh;
+    border-radius: 50px;
+    border: 1px solid var(--cor-contraste);
+    color: var(--cor-contraste);
+    padding: 0 1vw;
+}
+#pesquisa::placeholder{
+    color: var(--cor-contraste);
+}
+
+/*div da barara de pesquisa*/
+#divPesquisa{
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+
 /*Referente ao padrão dos botões*/
 button{
     background-color: rgba(0, 0, 0, 0);
@@ -64,25 +107,7 @@ button:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
-/*selects*/
-select {
-    appearance: none;
-    padding: 0.5em;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0);
-    color: var(--cor-texto);
-    border-color: var(--cor-texto);
-    margin-right: 0.4em;
-    cursor: pointer;
-}
-
-/*Opcoes do select*/
-select option {
-    text-align: center;
-    color: var(--cor-contraste);
-    background-color: var(--cor-app);
-}
-
+/*Titulo do site*/
 h1 {
     margin: 0 1vw;
     font-size: 1.4em;
