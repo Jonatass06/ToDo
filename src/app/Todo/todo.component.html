@@ -1,52 +1,41 @@
 <body>
-  <div id="tudo">
-    <!--Parte dos inputs de cadstro-->
-    <div id="cadastro" *ngIf="cadastro">
-      <div id="cadastro2">
-        <input placeholder="Título" [(ngModel)]="tarefaCadastro.titulo" id="titulo">
-        <select required [(ngModel)]="tarefaCadastro.categoria" id="categoria">
-          <option value="" disabled selected>--Categoria--</option>
-          <option *ngFor="let categoria of categorias" [value]="categoria.nome">
-            {{categoria.nome}}
-          </option>
-        </select>
-        <button (click)="CadastrarTarefa()" id="enviar">Cadastrar</button>
-      </div>
-      <textarea (input)="tamanhoTextArea()" placeholder="Descrição" [(ngModel)]="tarefaCadastro.texto"
-        id="descricao"></textarea>
+  <!--quadrado com borda roxa-->
+  <div id="divPai">
+    <!--botão de adicionar tarefa-->
+    <div id="divBotaoCadastrar">
+      <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
     </div>
-    <!--quadrado com borda roxa-->
-    <div id="divPai">
-      <div id="scrollBar">
-        <div id="inverte">
-          <!--parte das colunas de cada categoria-->
-          <div *ngFor="let categoria of categorias; index as indiceCat" (dragover)="defineCategoriaAbaixo(categoria)"
-            class="categoria">
-            <div class="colunas">
-              <div class="colunas2" (dragover)="mudaBloqueio($event)"
-                [ngStyle]="{'border': '1px solid ' + categoria.cor}" id="{{categoria.nome}}">
-                <!--nome da categoria-->
-                <div class="tituloDiv">
-                  <h2>{{categoria.nome}}</h2>
-                </div>
-                <!--Parte das tarefas-->
-                <div *ngFor="let tarefa of Tarefas; index as indice" (dragover)="defineTarefaAbaixo(tarefa, $event)">
-                  <div *ngIf="tarefa.categoria == categoria.nome" class="caixaTarefa" draggable="true"
-                    (dragend)="mudarCatDrag(tarefa)" [style.boxShadow]="'1px 1px 10px 2px ' + categoria.cor">
-                    <textarea [(ngModel)]="tarefa.titulo" class="textA" (input)="tamanhoTextArea(); muda()">
+    <div id="scrollBar">
+      <div id="inverte">
+        <!--parte das colunas de cada categoria-->
+        <div *ngFor="let categoria of categorias; index as indiceCat" (dragover)="defineCategoriaAbaixo(categoria)"
+          class="categoria">
+          <div class="colunas">
+            <div class="colunas2" (dragover)="mudaBloqueio($event)" [ngStyle]="{'border': '1px solid ' + categoria.cor}"
+              id="{{categoria.nome}}">
+              <!--nome da categoria-->
+              <div class="tituloDiv">
+                <h2>{{categoria.nome}}</h2>
+              </div>
+              <!--Parte das tarefas-->
+              <div *ngFor="let tarefa of Tarefas; index as indice" (dragover)="defineTarefaAbaixo(tarefa, $event)">
+                <div *ngIf="tarefa.categoria == categoria.nome" class="caixaTarefa" draggable="true"
+                  (dragend)="mudarCatDrag(tarefa)" [style.boxShadow]="'1px 1px 10px 0.8px ' + categoria.cor">
+                  <textarea [(ngModel)]="tarefa.titulo" class="textA" (input)="tamanhoTextArea()" (blur)="muda(tarefa)"
+                  (click)="defineAntigaTarefa(tarefa)">
                     </textarea>
-                    <textarea class="textA" (input)="tamanhoTextArea(); muda()" [(ngModel)]="tarefa.texto">
+                  <textarea class="textA" (input)="tamanhoTextArea()" (blur)="muda(tarefa)" [(ngModel)]="tarefa.texto"
+                  (click)="defineAntigaTarefa(tarefa)">
                     </textarea>
-                    <!--opcoes inferiores de cada tarefa-->
-                    <div class="opcoes">
-                      <select [(ngModel)]="tarefa.categoria" (change)="muda()" class="trocaCat"
-                        [style.border-color]="categoria.cor">
-                        <option *ngFor="let categoria of categorias" [value]="categoria.nome">
-                          {{categoria.nome}}
-                        </option>
-                      </select>
-                      <button (click)="Del(indice)" class="del" [style.border-color]="categoria.cor">🗑️</button>
-                    </div>
+                  <!--opcoes inferiores de cada tarefa-->
+                  <div class="opcoes">
+                    <select [(ngModel)]="tarefa.categoria" (change)="muda(tarefa)" class="trocaCat"
+                      [style.border-color]="categoria.cor">
+                      <option *ngFor="let categoria of categorias" [value]="categoria.nome">
+                        {{categoria.nome}}
+                      </option>
+                    </select>
+                    <button (click)="Del(indice)" class="del" [style.border-color]="categoria.cor">🗑️</button>
                   </div>
                 </div>
               </div>
@@ -54,13 +43,33 @@
           </div>
         </div>
       </div>
-      <!--botão de adicionar tarefa-->
-      <div id="divBotaoCadastrar">
-        <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
-        <button *ngIf="cadastro" (click)="cadastrar()" class="cadastroBotao">-</button>
-      </div>
     </div>
   </div>
 </body>
+<!--Parte dos inputs de cadstro-->
+<div id="cadastro" *ngIf="cadastro">
+  <div id="cadastro2" #cadastro2>
+    <button (click)="cadastrar()" id="cancelarCadastro">x</button>
+    <input placeholder="Título" [(ngModel)]="tarefaCadastro.titulo" id="titulo">
+    <span *ngIf="semTituloETexto" class="erro">* Por favor, preencha o titulo ou a descrição!</span>
 
-{{tamanhoTextArea()}}
+    <textarea (input)="tamanhoTextArea()" placeholder="Descrição" [(ngModel)]="tarefaCadastro.texto"
+      id="descricao"></textarea>
+    <span *ngIf="semTituloETexto" class="erro">* Por favor, preencha o titulo ou a descrição!</span>
+
+    <select required [(ngModel)]="tarefaCadastro.categoria" id="categoria">
+      <option value="" disabled selected>--Categoria--</option>
+      <option *ngFor="let categoria of categorias" [value]="categoria.nome">
+        {{categoria.nome}}
+      </option>
+    </select>
+    <span *ngIf="semCat" class="erro">* Você precisa preencher esse campo!</span>
+    <button (click)="CadastrarTarefa()" id="enviar">Cadastrar</button>
+  </div>
+</div>
+<div id="alerta" *ngIf="alerta">
+  <div id="alerta2" #alerta>
+    <button (click)="fechaAlerta()" class="cancelar">x</button>
+    <h4>Você não pode cadastrar uma tarefa sem título ou descrição!</h4>
+  </div>
+</div>

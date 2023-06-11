@@ -1,22 +1,33 @@
-h2 {
-    font-size: 1.3em;
+/* Estilos gerais */
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    text-align: center;
+    color: rgb(var(--cor-texto));
 }
 
+div {
+    display: flex;
+    align-items: center;
+}
+
+h2 {
+    font-size: 1.3em;
+    color: rgb(var(--cor-texto));
+}
+
+/*quadrado em volta das categorias e das tarefas*/
 #divPai {
-    border: 0.1em solid var(--cor-app);
+    border: 0.1em solid rgb(var(--cor-app));
     margin-top: 5vh;
     padding: 1vh 5vw 5vh 5vw;
     padding-top: 4vh;
     margin: 3vh 5vw
 }
 
-#botaoAdicionar {
-    margin-left: 0.5em;
-    font-size: 2em;
-    color: var(--cor-texto);
-    text-shadow: -0.01rem -0.1rem 0 #ffffff, 0.01rem -0.01rem 0 #ffffff, -0.01rem 0.01rem 0 #ffffff, 0.01rem 0.01rem 0 #ffffff;
-}
 
+/* Estilos do quadrado da scrollbar */
 #scrollBar {
     overflow: auto;
     width: 60vw;
@@ -31,7 +42,7 @@ h2 {
 }
 
 #scrollBar::-webkit-scrollbar-track {
-    background-color: var(--cor-app);
+    background-color: rgb(var(--cor-app));
     border-radius: 10px;
 }
 
@@ -45,25 +56,10 @@ h2 {
 }
 
 #scrollBar::-webkit-scrollbar-thumb:hover {
-    background-color: var(--cor-app)
+    background-color: rgb(var(--cor-app));
 }
 
-
-#novaCat {
-    width: 7.8vw;
-    color: var(--cor-texto);
-    border-color: var(--cor-texto);
-    padding: 0 1vw 0 1vw;
-    font-size: 0.8em;
-
-}
-
-#titulo {
-    width: 19vw;
-    height: 5vh;
-
-}
-
+/* Estilos dos textareas */
 .textA {
     font-size: 1em;
     text-align: center;
@@ -75,86 +71,51 @@ h2 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-#enviar {
-    width: 8vw;
-    height: 5.51vh;
-    color:var(--cor-app)
+/*div geral do todo*/
+#tudoTodo {
+    display: block;
+    text-align: center;
 }
 
-#categoria {
-    width: 8vw;
-    height: 5.51vh;
+/* Estilos da div do título de cada categoria */
+.tituloDiv {
+    display: flex;
+    justify-content: center;
 }
 
-input,
-textarea {
-    font-size: 1rem;
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
-    border: 1px solid;
-    border-color: var(--cor-texto);
+/* Estilos das colunas de cada categoria */
+.categoria {
+    flex: 1;
+    display: flex;
+    align-items: baseline;
+    margin-right: 0.1vw;
+    color: rgb(var(--cor-texto));
 }
-input{
-    padding-left: 1vw;
-}
+
+/* Estilos do select */
 select {
     appearance: none;
     padding: 0.5em;
     text-align: center;
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
-    border-color: var(--cor-texto);
+    background-color: rgb(var(--cor-fundo));
+    color: rgb(var(--cor-texto));
+    border-color: rgb(var(--cor-texto));
     cursor: pointer;
 }
 
+/* Estilos das options do select */
 select option {
     text-align: center;
-    color: var(--cor-texto);
+    color: rgb(var(--cor-texto));
 }
 
-#pesquisa {
-    border-color: var(--cor-app);
-    width: 30vw;
-    height: 4.5vh;
-    border-radius: 50px;
-}
-
-#cadastro {
-    display: block;
-    justify-content: center;
-    margin-top: 2vh;
-}
-
-#cadastro>*>* {
-    font-size: 1rem;
-}
-
+/* Estilos do placeholder */
 ::placeholder {
-    color: var(--cor-texto);
+    color: rgb(var(--cor-texto));
 }
 
-body {
-    width: 100%;
-    height: 100%;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 0;
-    text-align: center;
-}
-
-main {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-}
-
-div {
-    display: flex;
-    align-items: center;
-}
-
-
+/* Estilos da div pai */
+/*div pai de todos*/
 #tudo {
     display: flex;
     align-items: center;
@@ -162,43 +123,15 @@ div {
     justify-content: center;
 }
 
-
-.caixa {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1em;
-    border: 1px solid var(--cor-app);
-    text-justify: inter-word;
-    width: 18vw;
-    border: 1px solid var(--cor-fundo)
-}
-.del {
-    cursor: pointer;
-    border: 1px solid white;
-    height: 3.7vh;
-    display: flex;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0);
-}
+/* Estilos da div das colunas */
 .colunas {
     width: 23vw;
     justify-content: center;
     margin-right: 1px;
     flex-grow: 1;
 }
-.categorias {
-    min-width: 67vw;
-    min-height: 4.7vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 1.5vw;
-    margin: 3vh 5.9vw;
-    border: 1px solid var(--cor-app);
-}
 
+/* Estilos da parte interna das colunas */
 .colunas2 {
     display: flex;
     flex-direction: column;
@@ -206,43 +139,51 @@ div {
     width: 23vw;
 }
 
-#pesquisaECadstro{
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
+/* Estilos da parte que inverte o scrollbar */
+#inverte {
+    transform: rotateX(180deg);
+    display: flex;
+    align-items: stretch;
+    height: 100%;
 }
 
-#tudo{
-    display:block;
-     text-align:center;
-}
-
+/* Estilos da caixa de cada tarefa */
 .caixaTarefa {
     display: block;
     width: 20vw;
     word-wrap: break-word;
-    border: 0.01rem ;
+    border: 0.01rem;
     margin: 0.5vh;
     margin-bottom: 2vh;
+    color: rgb(var(--cor-texto));
 }
 
+/* Estilos do select de trocar categoria de tarefa */
 .trocaCat {
     background-color: rgba(0, 0, 0, 0);
     border-color: white;
     height: 5vh;
+    color: rgb(var(--cor-texto));
 }
 
+/* Estilos das options */
+option {
+    background-color: rgb(var(--cor-fundo));
+}
+
+/* Estilos do select inválido */
 select:invalid {
-    color: var(--cor-app)
+    color: rgb(var(--cor-app));
 }
 
-input::placeholder,
+/* Estilos do placeholder dos inputs e textareas */
 textarea::placeholder {
-    color: var(--cor-app);
+    color: rgb(var(--cor-app));
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.trocaCatB {
+/* Estilos do botão de deletar tarefa */
+.del {
     border: 1px solid white;
     height: 3.7vh;
     display: flex;
@@ -251,53 +192,148 @@ textarea::placeholder {
     height: 5vh;
 }
 
-.trocaCatB:hover {
+.del:hover {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-.cadastroBotao {
-    font-size: 2em;
-    border: 1px solid var(--cor-texto);
-    color: var(--cor-texto);
-    border-radius: 100%;
-    height: 5vh;
-    width: 3vw;
-    border-color: var(--cor-app);
-    color: var(--cor-app);
-    ;
-}
-
-.cadastroBotao:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
+/* Estilos do hover dos botões */
 button:hover {
-    background-color: var(--cor-app);
+    background-color: rgb(var(--cor-app));
     cursor: pointer;
 }
 
-#descricao {
-    text-align: left;
-    resize: none;
-    height: auto;
-
-    width: 35vw;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
+/* Estilos das opções inferiores de cada caixa de tarefa */
 .opcoes {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.botao:hover {
-    background-color: var(--cor-fundo);
+/* Estilos dos botões */
+button {
+    background-color: rgb(var(--cor-fundo));
+    color: rgb(var(--cor-texto));
+    border: 1px solid;
+    border-color: rgb(var(--cor-texto));
 }
 
-button {
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
-    border: 1px solid;
-    border-color: var(--cor-texto);
+/* Estilos das caixas de categoria */
+.categorias {
+    min-height: 7.4vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1.5vw;
+    margin: 3vh 5.9vw;
+    border: 1px solid rgb(var(--cor-app));
+    width:65.98vw;
+    position: relative;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    border-radius: 10px;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border-radius: 10px;
+}
+
+input[type="color"]{
+    border:none;
+    background-color: rgba(0,0,0,0);
+}
+
+#alerta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: auto;
+    margin-top: 2vh;
+    position: fixed;
+    top: -2vh;
+    bottom: -5vh;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+}
+
+.cancelar {
+    color: rgba(0, 0, 0, 0.7);
+    border: none;
+    position: absolute;
+    right: 0.7vw;
+    top: 1vh;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cancelar:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes popupAnimation {
+    0% {
+        transform: translate(0, 0) scale(0);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+@keyframes popupAnimationSair {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(0);
+    }
+}
+
+/*parte interior do alerta*/
+#alerta2 {
+    background-color: rgb(var(--cor-fundo));
+    height: 10vh;
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    animation: popupAnimation 0.3s ease-in-out;
+    position: relative;
+}
+
+/* Estilos da caixa de categoria */
+.caixa {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    border: 1px solid rgb(var(--cor-app));
+    text-justify: inter-word;
+    width: 18vw;
+    border: 1px solid rgb(var(--cor-fundo));
+}
+
+/* Estilos do botão de deletar categoria */
+.delCat {
+    cursor: pointer;
+    border: 1px solid white;
+    height: 3.7vh;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.delCat:hover {
+    background-color: rgba(0, 0, 0, 0.3);
 }

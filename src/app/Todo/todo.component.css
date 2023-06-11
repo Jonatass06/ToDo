@@ -1,30 +1,33 @@
 /*Titulo de cada categoria*/
 h2 {
     font-size: 1.3em;
-    color: var(--cor-texto)
+    color: rgb(var(--cor-texto))
 }
 
 /*quadrado em volta das categorias e das tarefas*/
 #divPai {
-    border: 0.1em solid var(--cor-app);
-    margin-top: 5vh;
-    padding: 1vh 1vw 5vh 5vw;
-    padding-top: 4vh;
-    margin: 3vh 5vw
+    min-height: 4.7vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: 1px solid rgb(var(--cor-app));
+    max-width: 100%;
+    margin: 3vh 5.9vw;
+    padding:4vh 3.01vw;
 }
 
 /*botao que mostra os imputs de cadastro*/
 #botaoAdicionar {
     margin-left: 0.5em;
     font-size: 2em;
-    color: var(--cor-texto);
+    color: rgb(var(--cor-texto));
     text-shadow: -0.01rem -0.1rem 0 #ffffff, 0.01rem -0.01rem 0 #ffffff, -0.01rem 0.01rem 0 #ffffff, 0.01rem 0.01rem 0 #ffffff;
 }
 
 /*estilização do quadrado da scrollbar*/
 #scrollBar {
     overflow: auto;
-    width: 60vw;
+    width: 100%;
     align-items: baseline;
     transform: rotateX(180deg);
     padding-bottom: 1vh;
@@ -37,7 +40,7 @@ h2 {
 }
 
 #scrollBar::-webkit-scrollbar-track {
-    background-color: var(--cor-app);
+    background-color: rgb(var(--cor-app));
     border-radius: 10px;
 }
 
@@ -51,14 +54,16 @@ h2 {
 }
 
 #scrollBar::-webkit-scrollbar-thumb:hover {
-    background-color: var(--cor-app)
+    background-color: rgb(var(--cor-app))
 }
 
 /*input de titulo de tarefa*/
 #titulo {
-    width: 19vw;
+    width: 20vw;
     height: 5vh;
-
+    border:1px solid  rgba(var(--cor-texto), 0.2);
+    border-radius: 10px;
+    color:var(--cor-texto)
 }
 
 /*estilização de textareas das tarefas*/
@@ -68,24 +73,113 @@ h2 {
     border: none;
     font-size: 0.8em;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: var(--cor-texto);
+    color: rgb(var(--cor-texto));
     font-size: 1em;
     text-align: center;
     font-weight: bold;
 }
 
+#alerta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: auto;
+    margin-top: 2vh;
+    position: fixed;
+    top: -2vh;
+    bottom: -5vh;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+}
+
+.cancelar {
+    color: rgba(0, 0, 0, 0.7);
+    border: none;
+    position: absolute;
+    right: 0.7vw;
+    top: 1vh;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cancelar:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes popupAnimation {
+    0% {
+        transform: translate(0, 0) scale(0);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+@keyframes popupAnimationSair {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(0);
+    }
+}
+
+h4{
+    color: red;
+}
+
+/*parte interior do alerta*/
+#alerta2 {
+    background-color: rgb(var(--cor-fundo));
+    height: 10vh;
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    animation: popupAnimation 0.3s ease-in-out;
+    position: relative;
+}
+
 /*botão de cadastrar*/
 #enviar {
-    width: 8vw;
-    height: 5.51vh;
-    color: var(--cor-app)
+    width: 21.38vw;
+    height: 5vh;
+    background-color: rgb(var(--cor-app));
+    color: white;
+    border-radius: 30px;
+    border:none;
+    margin-top: 1vh;
+    color:var(--cor-contraste)
+
+}
+
+
+.erro{
+    color:red;
+    font-size:0.75em;
 }
 
 /*select de categorias*/
 #categoria {
-    width: 8vw;
+    color: var(--cor-texto);
+    width: 21.38vw;
     height: 5.51vh;
-
+    border:1px solid rgba(var(--cor-texto), 0.2);
+    border-radius: 10px;
+    opacity: 0.8;
+    appearance:initial;
+    margin-top: 1vh;
 }
 
 /*div do titulo de cada categoria*/
@@ -100,17 +194,17 @@ h2 {
     display: flex;
     align-items: baseline;
     margin-right: 0.1vw;
-    color: var(--cor-texto)
+    color: rgb(var(--cor-texto))
 }
 
 /*estilização global de inputs e textareas*/
 input,
 textarea {
     font-size: 1rem;
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
+    background-color: rgb(var(--cor-fundo));
+    color: rgb(var(--cor-texto));
     border: 1px solid;
-    border-color: var(--cor-texto);
+    border-color: rgb(var(--cor-texto));
 }
 
 /*estilização global de inputs*/
@@ -123,43 +217,38 @@ select {
     appearance: none;
     padding: 0.5em;
     text-align: center;
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
-    border-color: var(--cor-texto);
+    background-color: rgb(var(--cor-fundo));
+    color: rgb(var(--cor-texto));
+    border-color: rgb(var(--cor-texto));
     cursor: pointer;
 }
 
 /*estilização global de options*/
 select option {
     text-align: center;
-    color: var(--cor-texto);
+    color: rgb(var(--cor-texto));
 }
 
 /*div de cadastro que aparece e desaparece*/
-#cadastro {
-    display: block;
-    justify-content: center;
-    margin-top: 2vh;
-}
 
 /*inputs de cadastro*/
-#cadastro>*>* {
+#cadastro>*>textarea, #cadastro>*>input, #cadastro>*>button {
     font-size: 1rem;
 }
 
 /*placeholder geral*/
 ::placeholder {
-    color: var(--cor-texto);
+    color: rgb(var(--cor-texto));
 }
 
 /*corpo geral do componente tarefas*/
 body {
-    width: 100%;
-    height: 100%;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 0;
-    text-align: center;
-    color: var(--cor-texto);
+    position: static;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width:100%;
 }
 
 /*divs em geral*/
@@ -186,23 +275,80 @@ div {
 
 /*parte interior de cadastro*/
 #cadastro2 {
+    background-color: rgb(var(--cor-fundo));
+    height: 60vh;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    animation: popupAnimation 0.3s ease-in-out;
+    position:relative;
+}
+
+@keyframes popupAnimation {
+    0% {
+        transform: translate(0, 0) scale(0);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+@keyframes popupAnimationSair {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(0);
+    }
+}
+
+
+#cadastro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: auto;
+    justify-content: center;
+    margin-top: 2vh;
+    position: fixed;
+    top: -2vh;
+    bottom: -5vh;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+}
+
+#cancelarCadastro {
+    color:rgba(0,0,0,0.7);
+    border:none;
+    position: absolute;
+    right: 0.7vw;
+    top: 1vh;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+#cancelarCadastro:hover{
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 /*parte que ajuda a inverter o scrolbar*/
 #inverte {
     transform: rotateX(180deg);
     display: flex;
-    align-items: stretch;
+    align-items: baseline;
     height: 100%;
-}
-
-/*div geral*/
-#tudo {
-    display: block;
-    text-align: center;
+    width: 45vw;
 }
 
 /*div onde esta o botao de mostrar cadastro*/
@@ -211,17 +357,23 @@ div {
     align-items: center;
     justify-content: center;
     width: 8vw;
+    position: absolute;
+    right: -2.5vw;
+    top: 0;
 }
 
 /*caixa de cada tarefa*/
 .caixaTarefa {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 20vw;
     word-wrap: break-word;
     border: 0.01rem;
     margin: 0.5vh;
     margin-bottom: 2vh;
-    color: var(--cor-texto)
+    color: rgb(var(--cor-texto))
 }
 
 /*select de trocar categoria de tarefa*/
@@ -229,23 +381,23 @@ div {
     background-color: rgba(0, 0, 0, 0);
     border-color: white;
     height: 5vh;
-    color: var(--cor-texto)
+    color: rgb(var(--cor-texto))
 }
 
 /*options em geral*/
 option {
-    background-color: var(--cor-fundo);
+    background-color: rgb(var(--cor-fundo));
 }
 
 /*select invalido, basicamente o place holder do select*/
 select:invalid {
-    color: var(--cor-app)
+    color: rgb(var(--cor-app))
 }
 
 /*placeholder de inputs e textareas em geral*/
 input::placeholder,
 textarea::placeholder {
-    color: var(--cor-app);
+    color: rgb(var(--cor-texto));
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -266,14 +418,15 @@ textarea::placeholder {
 /*botoes de mostrar cadastro ou nao*/
 .cadastroBotao {
     font-size: 2em;
-    border: 1px solid var(--cor-texto);
-    color: var(--cor-texto);
-    border-radius: 100%;
+    border:none;
+    border-radius: 5px 0 5px 10px;
     height: 5vh;
     width: 3vw;
-    border-color: var(--cor-app);
-    color: var(--cor-app);
-    ;
+    color: rgb(var(--cor-app));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
 }
 
 .cadastroBotao:hover {
@@ -282,18 +435,24 @@ textarea::placeholder {
 
 /*hover geral dos botoes*/
 button:hover {
-    background-color: var(--cor-app);
+    background-color: rgb(var(--cor-app));
     cursor: pointer;
 }
 
 /*input de descricao de cadastro de tarefa*/
 #descricao {
+    border:1px solid  rgba(var(--cor-texto), 0.2);
+    padding: 1vh 1vw;
     text-align: left;
     resize: none;
-    height: auto;
-
-    width: 35vw;
+    min-height: 20vh;
+    max-height: 20vh;
+    margin-top: 1vh;
+    width: 19.2vw;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border-radius: 10px;
+    opacity: 0.8;
+    color:var(--cor-texto);
 }
 
 /*opcoes iferiores de cada caixa de tarefa*/
@@ -305,8 +464,12 @@ button:hover {
 
 /*botoes em geral*/
 button {
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
+    background-color: rgb(var(--cor-fundo));
+    color: rgb(var(--cor-texto));
     border: 1px solid;
-    border-color: var(--cor-texto);
+    border-color: rgb(var(--cor-texto));
+}
+
+#titulo::placeholder{
+    color:rgb(var(--cor-texto), 0.8)
 }

@@ -1,18 +1,32 @@
 body{
+    display:block;
     margin:0px;
     width:100%;
-    height:100%;
-    background-color: var(--cor-fundo);
+    min-height: 100%;
+    height:auto;
+    background-color: rgb(var(--cor-fundo));
+    position: relative;
+    max-width: 100%;
 }
 html{
+    display:flex;
     margin:0px;
+    min-height: 100%;
     width:100%;
-    height:100%;
+    height:auto;
+    max-width: 100%;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 :root{
-    --cor-fundo:rgb(255, 255, 255);
-    --cor-texto:rgb(0, 0, 0);
-    --cor-app: rgba(144, 0, 240, 0.863);
+    --cor-fundo:255, 255, 255;
+    --cor-texto:0, 0, 0;
+    --cor-app: 144, 0, 240, 0.863;
     --cor-contraste:white;
+}
+body > * {
+    display:contents;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    position:relative;
 }

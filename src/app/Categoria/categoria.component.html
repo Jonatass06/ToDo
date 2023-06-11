@@ -1,23 +1,40 @@
 <div id="tudo">
-  <div id="pesquisaECadastro">
-    <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
-    <button *ngIf="cadastro" (click)="cadastrar()" class="cadastroBotao">-</button>
-  </div>
+  <!--Inputs de cadastro-->
   <div id="cadastro" *ngIf="cadastro">
-    <div id="cadastro2">
-      <textarea (input)="tamanhoTextArea()" placeholder="Nome da Categoria" [(ngModel)]="categoriaNome" id="descricao"></textarea>
-      <div id="corESubmit">
+    <div id="cadastro2" #cadastro2>
+      <button *ngIf="cadastro" (click)="cadastrar()" class ="cancelar">x</button>
+
+      <textarea (input)="tamanhoTextArea()" placeholder="Nome da Categoria" [(ngModel)]="categoriaNome"
+        id="nome"></textarea>
+        <span *ngIf="!permissao" class="erro">* Já existe uma categoria cadastrada com esse nome!</span>
+        <span *ngIf="vazio" class="erro">* Você precisa preencher este campo!</span>
         <input type="color" [(ngModel)]="categoriaCor" id="novaCatCor">
-        <button (click)="cadastrarCat()" class="botoesNovaCat">Cadastrar</button>
-      </div>
+        <button (click)="cadastrarCat()" class="botoesNovaCat" id="enviar">Cadastrar</button>
     </div>
   </div>
-
-  <div *ngIf="pesquisa==''" class="categorias">
-    <div *ngFor="let cat of categorias; index as indice" class="caixa" [style.border-color]="cat.cor" [style.color]="--cor-texto">
-      <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()" (click)="defineAntigaCategoria(cat)" (blur)=" muda(indice)" [style.color]="--cor-texto"></textarea>
+  <div class="categorias">
+    <!--Cadastro de Categorias-->
+    <div id="divBotaoCadastrar">
+      <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
+    </div>
+  <!--Categorias em si-->
+    <div *ngFor="let cat of categorias; index as indice" class="caixa" [style.border-color]="cat.cor">
+      <textarea [(ngModel)]="cat.nome" class="textA" (input)="tamanhoTextArea()" (click)="defineAntigaCategoria(cat)"
+        (blur)=" muda(indice)" [style.color]="--cor-texto"></textarea>
+      <input type="color" [(ngModel)]="cat.cor" (blur)="mudaCor()" class="trocaCor">
       <button (click)="delCat(indice)" class="del" [style.border-color]="--cor-texto">🗑️</button>
     </div>
   </div>
 </div>
-{{tamanhoTextArea()}}
+<div id="alerta" *ngIf="alerta1">
+  <div id="alerta2" #alerta2>
+    <button (click)="fechaAlerta()" class="cancelar">x</button>
+    <h4>Você já tem uma categoria cadastrada com esse nome!</h4>
+  </div>
+</div>
+<div id="alerta" *ngIf="alerta2">
+  <div id="alerta2" #alerta2>
+    <button (click)="fechaAlerta()" class="cancelar">x</button>
+    <h4>Você não pode cadastrar uma categoria com nome em branco!</h4>
+  </div>
+</div>

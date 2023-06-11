@@ -1,17 +1,15 @@
-/* - Ajeitar problema com pesquisa e alteracao de dados junto ao drag and drop
-- ajeitar problema de pesquisa com apenas a primeira letra
-- ajeitar o routerlinkactive
-- input para cadastro que deixa tudo sem foco
-- adicionar input de cor para mudar a cor de uma categoria
+/* - tirar categorias que nao tem tarefas pesquisadas
+- ajeitar o problema de recarregar pagina de pesquisa********
+- destaque na pésquisa usar contenteditable
 - ajeitar temas e cor do app
-- mudar o input do componente pesquisa para a pesquisa ao inves da lista de pesquisa
-- nao deixar modificar para categoria que ja existe
 - ajeitar metodos chamados diretos no html
 - tirar logica do html
+- ajeitar prolema de trocar categorias e taraefas para espaco vazio, inclusive em pesquisa
 */
 
-import { Component, OnInit, ElementRef, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ElementRef, Output, EventEmitter, ViewChild, Renderer2 } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { PesquisaComponent } from './Pesquisa/pesquisa.component';
 
 interface Tarefa {
   texto: string,
@@ -40,14 +38,17 @@ export class AppComponent implements OnInit {
   corTexto: string;
   //pesquisa
   pesquisa: string = '';
-  listaPesquisa: any[] = [];
 
-  constructor(private el: ElementRef, private router: Router) { }
+  constructor(private el: ElementRef, private router: Router, private renderer: Renderer2) { }
 
+  @ViewChild('secao') myElementRef: ElementRef;
   //faz o menu aparecer ou desaparecer
   menu(): void {
     if (this.secao) {
-      this.secao = false;
+      this.renderer.setStyle(this.myElementRef.nativeElement, 'animation', 'desaparece 0.3s ease-in-out');
+      setTimeout(()=>{
+        this.secao = false
+      }, 250)
     } else {
       this.secao = true;
     }
@@ -66,17 +67,21 @@ export class AppComponent implements OnInit {
   mudaTema(): void {
 
     if (this.tema == 'Dark') {
-      document.documentElement.style.setProperty('--cor-fundo', "rgba(0,0,0,0.95")
+      document.documentElement.style.setProperty('--cor-fundo', "0,0,0")
       document.documentElement.style.setProperty('--cor-contraste', this.contraste(document.documentElement.style.getPropertyValue('--cor-app')))
-      document.documentElement.style.setProperty('--cor-texto', 'White')
-      document.documentElement.style.setProperty('--cor-app', 'rgba(189, 70, 255, 0.863)')
+      document.documentElement.style.setProperty('--cor-texto', '255, 255, 255')
+      document.documentElement.style.setProperty('--cor-app', '189, 70, 255, 0.863')
     } else {
-      document.documentElement.style.setProperty('--cor-fundo', "White")
+      document.documentElement.style.setProperty('--cor-fundo', "255,255,255")
       document.documentElement.style.setProperty('--cor-contraste', this.contraste(document.documentElement.style.getPropertyValue('--cor-app')))
-      document.documentElement.style.setProperty('--cor-texto', 'Black')
-      document.documentElement.style.setProperty('--cor-app', 'rgba(144, 0, 240, 0.863)')
+      document.documentElement.style.setProperty('--cor-texto', '0,0,0')
+      document.documentElement.style.setProperty('--cor-app', '144, 0, 240, 0.863')
     }
     localStorage.setItem("tema", this.tema);
+  }
+
+  limpaPesquisa():void{
+    this.pesquisa='';
   }
 
   //serve para definir a cor de texto contrastante com a de fundo
@@ -88,49 +93,26 @@ export class AppComponent implements OnInit {
     return luz > 128 ? '#000' : '#fff'
   }
 
-  //muda a url para pesquisa e já salva a pagina 
-  pesquisando(): void {
-    if (!this.router.url.includes("/pesquisa")) {
-      localStorage.setItem("paginaAberta", this.router.url)
-    }
-
-    //pesquisa de tarefas
-    if (this.router.url == "/tarefas") {
-      let Tarefas: Tarefa[] = [];
-      if (localStorage.getItem("listaTarefas") != null) {
-        Tarefas = JSON.parse(localStorage.getItem("listaTarefas"));
-      }
-      this.listaPesquisa = [];
-      for (let tarefa of Tarefas) {
-        if ((tarefa.titulo != null && tarefa.titulo.toLowerCase().includes(this.pesquisa.toLowerCase())) ||
-          (tarefa.texto != null && tarefa.texto.toLowerCase().includes(this.pesquisa.toLowerCase()))) {
-          this.listaPesquisa.push(tarefa);
-        }
-      }
-    }
-
-    //pesquisa de categorias
-    else if (this.router.url == "/categoria") {
-      let categorias: Categoria[] = [];
-      if (localStorage.getItem("categorias") != null) {
-        categorias = JSON.parse(localStorage.getItem("categorias"));
-      }
-      this.listaPesquisa = [];
-      for (let categoria of categorias) {
-        if (categoria.nome.includes(this.pesquisa)) {
-          this.listaPesquisa.push(categoria);
-        }
-      }
-    }
-
-    this.router.navigate(["/pesquisa"]);
-    localStorage.setItem("listaPesquisa", JSON.stringify(this.listaPesquisa))
-  }
-
   //para a pesquisa e volta para a pagina anterior
   parouPesquisa(): void {
     if (this.pesquisa == "") {
       this.router.navigate([localStorage.getItem("paginaAberta")])
     }
+  }
+
+  @ViewChild(RouterOutlet) routerOutlet: RouterOutlet;
+  //metodo que define pesquisa no componente pesquisa
+  pesquisar() {
+    if (this.routerOutlet && this.routerOutlet.component) {
+      const componenteFilho = this.routerOutlet.component as PesquisaComponent;
+      componenteFilho.definePesquisa(this.pesquisa);
+    }
+  }
+  //muda a pagina para a pagina de pesquisa
+  mudaPagina():void{
+    if (!this.router.url.includes("/pesquisa")) {
+      localStorage.setItem("paginaAberta", this.router.url)
+    }
+    this.router.navigate(["/pesquisa"]);
   }
 }

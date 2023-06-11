@@ -1,7 +1,8 @@
+/*Botao de cadastrar uma categoria*/
 .botoesNovaCat {
     width: 7.2vw;
-    color: var(--cor-app);
-    border-color: var(--cor-app);
+    color: rgb(var(--cor-texto));
+    border-color: rgb(var(--cor-fundo));
     background-color: rgba(0, 0, 0, 0);
     width: 9vw;
     height: 3vh;
@@ -9,20 +10,14 @@
 
 .botoesNovaCat:hover {
     background-color: rgba(0, 0, 0, 0.2);
-
 }
 
-#novaCat::placeholder {
-    text-align: center;
-    color: var(--cor-texto);
-}
-
-
+/*Botoes em geral*/
 button {
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
+    background-color: rgb(var(--cor-fundo));
+    color: rgb(var(--cor-texto));
     border: 1px solid;
-    border-color: var(--cor-texto);
+    border-color: rgb(var(--cor-fundo));
 }
 
 button:hover {
@@ -30,27 +25,42 @@ button:hover {
     cursor: pointer;
 }
 
+/*inputs e textareas em geral*/
 input,
 textarea {
     font-size: 1rem;
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
+    background-color: rgb(var(--cor-fundo));
+    color: rgb(var(--cor-texto));
     border: 1px solid;
-    border-color: var(--cor-app);
+    border-color: rgb(var(--cor-fundo));
 }
 
 input {
     padding-left: 1vw;
 }
 
-#descricao {
-    text-align: left;
-    resize: none;
-    height: auto;
-    width: 33vw;
+input::placeholder,
+textarea::placeholder {
+    color: rgb(var(--cor-texto));
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+/*Innput de nome de categoria*/
+#nome {
+    text-align: left;
+    resize: none;
+    height: auto;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border: 1px solid rgba(var(--cor-texto), 0.2);
+    border-radius: 10px;
+    width: 18.3vw;
+    min-height: 5vh;
+    max-height: 20vh;
+    margin-top: 10vh;
+    padding: 1vh 1vw 1vh 1vw;
+}
+
+/*textarea das ciaxas de categoria*/
 .textA {
     font-size: 1em;
     text-align: center;
@@ -62,36 +72,147 @@ input {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-#pesquisaECadastro {
+/*div onde esta o botao de mostrar cadastro*/
+#divBotaoCadastrar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+/*botão de cadastrar*/
+#enviar {
+    width: 20.3vw;
+    height: 5vh;
+    background-color: rgb(var(--cor-app));
+    color: white;
+    border-radius: 30px;
+    border:none;
+    position:absolute;
+    bottom: 13vh;
+}
+
+
+.cancelar {
+    color: rgba(0, 0, 0, 0.7);
+    border: none;
+    position: absolute;
+    right: 0.7vw;
+    top: 1vh;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#corESubmit {
-    display: flex;
-    flex-direction: column;
+.cancelar:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
+h4{
+    color:red;
+}
+
+/*div pai de cada caixa de categoria*/
 .categorias {
-    min-width: 67vw;
-    min-height: 4.7vh;
+    min-height: 7.4vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     padding: 1.5vw;
     margin: 3vh 5.9vw;
-    border: 1px solid var(--cor-app);
+    border: 1px solid rgb(var(--cor-app));
+    width: 65.98vw;
+    position: relative;
 }
 
-#cadastro2 {
+#cadastro {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: auto;
+    width: auto;
+    justify-content: center;
     margin-top: 2vh;
+    position: fixed;
+    top: -2vh;
+    bottom: -5vh;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 999;
 }
 
+/*parte interior de cadastro*/
+#cadastro2 {
+    background-color: rgb(var(--cor-fundo));
+    height: 60vh;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    animation: popupAnimation 0.3s ease-in-out;
+    position: relative;
+}
 
+@keyframes popupAnimation {
+    0% {
+        transform: translate(0, 0) scale(0);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+@keyframes popupAnimationSair {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate(0, 0) scale(0);
+    }
+}
+
+#alerta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: auto;
+    margin-top: 2vh;
+    position: fixed;
+    top: -2vh;
+    bottom: -5vh;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+}
+
+/*parte interior do alerta*/
+#alerta2 {
+    background-color: rgb(var(--cor-fundo));
+    height: 10vh;
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    animation: popupAnimation 0.3s ease-in-out;
+    position: relative;
+}
+
+/*div pai de todos*/
 #tudo {
     display: flex;
     align-items: center;
@@ -99,27 +220,23 @@ input {
     justify-content: center;
 }
 
+.trocaCor{
+    padding:0;
+}
 
-
+/*caixa de categoria*/
 .caixa {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 1em;
-    border: 1px solid var(--cor-app);
     text-justify: inter-word;
     width: 18vw;
-    border: 1px solid var(--cor-fundo)
+    border: 1px solid;
 }
 
-#pesquisa {
-    border: 1px solid var(--cor-app);
-    width: 30vw;
-    height: 4.5vh;
-    border-radius: 50px;
-}
-
+/*botao de deletar categoria*/
 .del {
     cursor: pointer;
     border: 1px solid white;
@@ -133,47 +250,59 @@ input {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-input::placeholder,
-textarea::placeholder {
-    color: var(--cor-app);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+/*inputs de cadastro*/
+#cadastro>*>input, #cadastro>*>textarea, #cadastro>*>button  {
+    font-size: 1rem;
 }
 
+/*botoes de mostrar cadastro ou nao*/
 .cadastroBotao {
     font-size: 2em;
-    border: 1px solid var(--cor-texto);
-    color: var(--cor-texto);
-    border-radius: 100%;
+    border: none;
+    border-radius: 5px 0 5px 10px;
     height: 5vh;
     width: 3vw;
-    border-color: var(--cor-app);
-    color: var(--cor-app);
-    ;
+    color: rgb(var(--cor-app));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
 
 .cadastroBotao:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+/*divs em geral*/
 div {
-    background-color: var(--cor-fundo);
+    background-color: rgb(var(--cor-fundo));
 }
 
-#novaCatInput {
-    width: 9vw;
-    height: 4vh;
-    color: var(--cor-texto);
-    border-color: var(--cor-texto);
-    padding: 0 1vw 0 1vw;
-    font-size: 0.8em;
-}
-
+/*input de cor da categoria*/
 #novaCatCor {
-    width: 9vw;
-    height: 4vh;
-    color: var(--cor-texto);
-    border-color: var(--cor-texto);
-    padding: 0 1vw 0 1vw;
+    width: 20.38vw;
+    height: 6vh;
+    color: rgb(var(--cor-texto));
+    border-color: rgba(var(--cor-texto), 0.2);
+    border-radius: 10px;
     font-size: 0.8em;
-    padding: 0;
+    padding: 0.2vw;
+    margin-top: 1vh;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    border-radius: 10px;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border-radius: 10px;
+}
+
+.erro{
+    color:red;
+    font-size:0.75em;
+}
+
+#nome::placeholder{
+    color: rgba(var(--cor-texto), 0.8)
 }
