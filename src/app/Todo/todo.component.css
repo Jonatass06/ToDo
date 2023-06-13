@@ -4,6 +4,11 @@ h2 {
     color: rgb(var(--cor-texto))
 }
 
+#menuPropriedade{
+    font-size: 1em;
+    font-weight: bold;
+}
+
 /*quadrado em volta das categorias e das tarefas*/
 #divPai {
     min-height: 4.7vh;
@@ -113,28 +118,32 @@ h2 {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-@keyframes popupAnimation {
-    0% {
-        transform: translate(0, 0) scale(0);
-    }
-
-    100% {
-        transform: translate(0, 0) scale(1);
-    }
-}
-
-@keyframes popupAnimationSair {
-    0% {
-        transform: translate(0, 0) scale(1);
-    }
-
-    100% {
-        transform: translate(0, 0) scale(0);
-    }
-}
-
 h4{
     color: red;
+}
+
+#opcoesMenuPropriedade{
+    background-color: black;
+    position: absolute;
+    right:-5vw;
+}
+
+#selecao{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/**revisar depois*/
+#cadastroPropriedade{
+    background-color: white;
+    width: 25vw;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
 }
 
 /*parte interior do alerta*/
@@ -275,16 +284,12 @@ div {
 
 /*parte interior de cadastro*/
 #cadastro2 {
-    background-color: rgb(var(--cor-fundo));
     height: 60vh;
     width: 30vw;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
-    animation: popupAnimation 0.3s ease-in-out;
-    position:relative;
 }
 
 @keyframes popupAnimation {
@@ -307,7 +312,25 @@ div {
     }
 }
 
-
+.popup{
+    position: fixed;
+    top: -2vh;
+    bottom: -5vh;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.popup2{
+    background-color: rgb(var(--cor-fundo));
+    border-radius: 10px;
+    animation: popupAnimation 0.3s ease-in-out;
+    position:relative;
+}
 #cadastro {
     display: flex;
     flex-direction: column;
@@ -317,14 +340,6 @@ div {
     width: auto;
     justify-content: center;
     margin-top: 2vh;
-    position: fixed;
-    top: -2vh;
-    bottom: -5vh;
-    right: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(2px);
-    z-index: 999;
 }
 
 #cancelarCadastro {
@@ -354,12 +369,14 @@ div {
 /*div onde esta o botao de mostrar cadastro*/
 #divBotaoCadastrar {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 8vw;
     position: absolute;
     right: -2.5vw;
     top: 0;
+    font-size: 1.2em;
 }
 
 /*caixa de cada tarefa*/
@@ -417,7 +434,7 @@ textarea::placeholder {
 
 /*botoes de mostrar cadastro ou nao*/
 .cadastroBotao {
-    font-size: 2em;
+    font-size: 1.2em;
     border:none;
     border-radius: 5px 0 5px 10px;
     height: 5vh;

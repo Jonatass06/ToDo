@@ -1,15 +1,21 @@
 import { Component, Renderer2, ElementRef, OnInit, Output, EventEmitter, ViewChild, AfterContentInit, AfterViewInit, AfterViewChecked } from '@angular/core';
-import { timer } from 'rxjs';
-
-interface Tarefa {
-  texto: string,
-  categoria: string,
-  titulo: string
-}
 
 interface Categoria {
   nome: string,
   cor?: string
+}
+
+//Propriedade----------------------------------------------------------------------------------
+interface Propriedade {
+  nome: string,
+  tipo: string,
+  opcoes?: string[]
+}
+//Propriedade----------------------------------------------------------------------------------
+interface Tarefa {
+  categoria: string,
+  titulo: string,
+  propriedades: any[]
 }
 
 @Component({
@@ -21,9 +27,9 @@ export class TodoComponent implements OnInit, AfterViewChecked {
 
   //tarefa usada para cadastro
   tarefaCadastro: Tarefa = {
-    texto: "",
     categoria: "",
-    titulo: ""
+    titulo: "",
+    propriedades: []
   }
 
   //lista de tarefas
@@ -42,9 +48,13 @@ export class TodoComponent implements OnInit, AfterViewChecked {
   tarefaAbaixo: Tarefa;
   categoriaAbaixo: Categoria;
 
+  //opcoes de cadastro de propriedades
+  opcoes: boolean;
+  cadastroDePropriedades: boolean = false;
+
   constructor(private el: ElementRef, private renderer: Renderer2) { }
 
-  ngAfterViewChecked(){
+  ngAfterViewChecked() {
 
     this.tamanhoTextArea();
   }
@@ -59,6 +69,38 @@ export class TodoComponent implements OnInit, AfterViewChecked {
     if (localStorage.getItem("listaTarefas") != null) {
       this.Tarefas = JSON.parse(localStorage.getItem("listaTarefas"));
     }
+    //pega a lista de propriedades
+    if (localStorage.getItem("listaDePropriedades") != null) {
+      this.listaDePropriedade = JSON.parse(localStorage.getItem("listaDePropriedades"));
+    }
+  }
+
+  //muda os valores de cada propriedade na tarefa
+
+  //agora tem que pegar o valor da propriedade 'valor' e colocala como o valor do input no html
+  mudaPropriedade(event: Event, tarefa: Tarefa): void {
+    const target = event.target as HTMLInputElement;
+
+    let adiciona: boolean = true;
+    for (let propriedade of tarefa.propriedades) {
+      if (propriedade.id == target.id) {
+        tarefa.propriedades[tarefa.propriedades.indexOf(propriedade)].valor = target.value;
+        adiciona = false;
+      }
+    }
+
+    if (adiciona) {
+      tarefa.propriedades.push({ id: target.id, valor: target.value })
+    }
+  }
+
+  pegaValor(target, tarefa):any{
+    for(let propriedade of tarefa.propriedades){
+        if(propriedade.id == target.id){
+          return propriedade.valor;
+        }
+    }
+    return "";
   }
 
   //definem o tamanho das textareas para o tamanho da string interior
@@ -67,22 +109,80 @@ export class TodoComponent implements OnInit, AfterViewChecked {
       textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
-    this.pesquisar()
   }
   @ViewChild('cadastro2') myElementRef: ElementRef;
-  
+  @ViewChild('cadastroPropriedade') cadastroPropriedade: ElementRef;
+
+  //mostra o as opcoes de tarefas
+  mostraOpcoes(): void {
+    if (this.opcoes) {
+      this.escondeOpcoes();
+    } else {
+      this.opcoes = true;
+
+    }
+  }
+
+  //esconde o as opcoes de tarefas
+  escondeOpcoes(): void {
+    this.opcoes = false;
+  }
+
+  mostrarCadastroPropriedade(): void {
+    if (this.cadastroDePropriedades) {
+      this.renderer.setStyle(this.cadastroPropriedade.nativeElement, 'animation', 'popupAnimationSair 0.3s ease-in-out');
+      setTimeout(() => {
+        this.cadastroDePropriedades = false;
+      }, 250)
+    } else {
+      this.cadastroDePropriedades = true;
+    }
+  }
+
+  //Propriedades------------------------------------------------DePropi-------------------
+  propriedade: Propriedade = {
+    nome: "",
+    tipo: "",
+    opcoes: []
+  }
+  opcaoCadastro: string;
+  listaDePropriedade: Propriedade[] = [];
+
+  cadastrarPropriedade(): void {
+    if (this.propriedade.tipo == "select") {
+      this.listaDePropriedade.push({ nome: this.propriedade.nome, tipo: this.propriedade.tipo, opcoes: this.propriedade.opcoes })
+    } else {
+      this.listaDePropriedade.push({ nome: this.propriedade.nome, tipo: this.propriedade.tipo })
+    }
+    localStorage.setItem("listaDePropriedades", JSON.stringify(this.listaDePropriedade))
+    this.propriedade.nome = "";
+    this.propriedade.tipo = "";
+    this.propriedade.opcoes = [];
+  }
+
+  isSelecao(): boolean {
+    return (this.propriedade.tipo == "select" ? true : false)
+  }
+
+  adicionaOpcao() {
+    this.propriedade.opcoes.push(this.opcaoCadastro);
+    this.opcaoCadastro = "";
+  }
+  //Propriedades-----------------------------------------------------------------------------------
+
   //mostra ou esconde os inputs de cadastro
   cadastrar(): void {
     if (!this.cadastro) {
       this.cadastro = true;
     } else {
       this.renderer.setStyle(this.myElementRef.nativeElement, 'animation', 'popupAnimationSair 0.3s ease-in-out');
-      setTimeout(()=>{
+      setTimeout(() => {
         this.cadastro = false
       }, 250)
       this.tarefaCadastro.titulo = "";
-      this.tarefaCadastro.texto = "";
       this.tarefaCadastro.categoria = "";
+      this.semTituloETexto = false;
+      this.semCat = false;
     }
   }
 
@@ -91,38 +191,16 @@ export class TodoComponent implements OnInit, AfterViewChecked {
 
   //metodo de cadastro de tarefas
   CadastrarTarefa(): void {
-    this.semCat = false;
-    this.semTituloETexto = false;
-    if (/^\s*$/.test(this.tarefaCadastro.titulo) && /^\s*$/.test(this.tarefaCadastro.texto)) { 
-      this.semTituloETexto = true;
-    } 
-    if(/^\s*$/.test(this.tarefaCadastro.categoria)){
-      this.semCat = true;
+    const TarefaInserida: Tarefa = {
+      categoria: this.tarefaCadastro.categoria,
+      titulo: this.tarefaCadastro.titulo,
+      propriedades: this.tarefaCadastro.propriedades
     }
-    if ((!/^\s*$/.test(this.tarefaCadastro.titulo) || !/^\s*$/.test(this.tarefaCadastro.texto)) 
-    && !/^\s*$/.test(this.tarefaCadastro.categoria)){
-      const TarefaInserida: Tarefa = {
-        texto: this.tarefaCadastro.texto,
-        categoria: this.tarefaCadastro.categoria,
-        titulo: this.tarefaCadastro.titulo
-      }
-      this.Tarefas.push(TarefaInserida);
-      this.tarefaCadastro.texto = "";
-      this.tarefaCadastro.categoria = "";
-      this.tarefaCadastro.titulo = "";
-      localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
-    }
-  }
-
-  //metodo de pesquisar
-  pesquisar(): void {
-    this.listaPesquisa = [];
-    for (let tarefa of this.Tarefas) {
-      if ((tarefa.titulo != null && tarefa.titulo.toLowerCase().includes(this.pesquisa.toLowerCase())) ||
-        (tarefa.texto != null && tarefa.texto.toLowerCase().includes(this.pesquisa.toLowerCase()))) {
-        this.listaPesquisa.push(tarefa);
-      }
-    }
+    this.Tarefas.push(TarefaInserida);
+    this.tarefaCadastro.categoria = "";
+    this.tarefaCadastro.titulo = "";
+    this.tarefaCadastro.propriedades = [];
+    localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
 
   // metodo para deletar uma tarefa
@@ -134,18 +212,17 @@ export class TodoComponent implements OnInit, AfterViewChecked {
   alerta = false;
 
   @ViewChild('alerta') alertaElemento: ElementRef;
-  fechaAlerta(){
-      this.renderer.setStyle(this.alertaElemento.nativeElement, 'animation', 'popupAnimationSair 0.3s ease-in-out');
-      setTimeout(() => {
-          this.alerta = false
-      }, 250)
+  fechaAlerta() {
+    this.renderer.setStyle(this.alertaElemento.nativeElement, 'animation', 'popupAnimationSair 0.3s ease-in-out');
+    setTimeout(() => {
+      this.alerta = false
+    }, 250)
   }
 
   //metodo que muda o conteudo de uma textarea
-  muda(tarefa:Tarefa): void {
-    if(/^\s*$/.test(tarefa.texto) && /^\s*$/.test(tarefa.titulo)){
+  muda(tarefa: Tarefa): void {
+    if (/^\s*$/.test(tarefa.titulo)) {
       tarefa.titulo = this.antigaTarefa.titulo;
-      tarefa.texto = this.antigaTarefa.texto;
       this.alerta = true;
     }
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
@@ -160,6 +237,8 @@ export class TodoComponent implements OnInit, AfterViewChecked {
   defineCategoriaAbaixo(categoria: Categoria): void {
     this.categoriaAbaixo = categoria;
   }
+
+
 
   // muda a categoria e a ordem da tarefa
   mudarCatDrag(tarefa: Tarefa): void {
@@ -178,9 +257,14 @@ export class TodoComponent implements OnInit, AfterViewChecked {
     localStorage.setItem("listaTarefas", JSON.stringify(this.Tarefas));
   }
 
-  antigaTarefa:Tarefa;
-  defineAntigaTarefa(tarefa:Tarefa){
-    this.antigaTarefa = {titulo:tarefa.titulo, texto:tarefa.texto, categoria:tarefa.categoria}
+  antigaTarefa: Tarefa;
+  defineAntigaTarefa(tarefa: Tarefa) {
+    this.antigaTarefa =
+    {
+      titulo: tarefa.titulo,
+      categoria: tarefa.categoria,
+      propriedades: tarefa.propriedades
+    }
   }
 
   //muda o indicador de bloqueio do drag 

@@ -3,7 +3,12 @@
   <div id="divPai">
     <!--botão de adicionar tarefa-->
     <div id="divBotaoCadastrar">
-      <button *ngIf="!cadastro" (click)="cadastrar()" class="cadastroBotao">+</button>
+      <button (click)="cadastrar()" class="cadastroBotao">+</button>
+      <nav class="cadastroBotao" id="menuPropriedade" (click)="mostraOpcoes()" (blur)="escondeOpcoes()">⁝
+        <ul *ngIf="opcoes" id="opcoesMenuPropriedade">
+          <button (click)="mostrarCadastroPropriedade()">Cadastrar Propriedade</button>
+        </ul>
+      </nav>
     </div>
     <div id="scrollBar">
       <div id="inverte">
@@ -21,12 +26,19 @@
               <div *ngFor="let tarefa of Tarefas; index as indice" (dragover)="defineTarefaAbaixo(tarefa, $event)">
                 <div *ngIf="tarefa.categoria == categoria.nome" class="caixaTarefa" draggable="true"
                   (dragend)="mudarCatDrag(tarefa)" [style.boxShadow]="'1px 1px 10px 0.8px ' + categoria.cor">
+
                   <textarea [(ngModel)]="tarefa.titulo" class="textA" (input)="tamanhoTextArea()" (blur)="muda(tarefa)"
-                  (click)="defineAntigaTarefa(tarefa)">
+                    (click)="defineAntigaTarefa(tarefa)">
                     </textarea>
-                  <textarea class="textA" (input)="tamanhoTextArea()" (blur)="muda(tarefa)" [(ngModel)]="tarefa.texto"
-                  (click)="defineAntigaTarefa(tarefa)">
-                    </textarea>
+
+                    <!--parte das propriedades-->
+                  <div *ngFor="let propriedade of listaDePropriedade">
+                    <input *ngIf="propriedade.tipo!='select'" [type]="propriedade.tipo" [id]="propriedade.nome" [value]="pegaValor($target, tarefa)" (input)="mudaPropriedade($event, tarefa)">
+                    <select *ngIf="propriedade.tipo=='select'" [id]="propriedade.nome" (change)="mudaPropriedade($event, tarefa)">
+                      <option *ngFor="let opcao of propriedade.opcoes" [value]="opcao">{{opcao}}</option>
+                    </select>
+                  </div>
+
                   <!--opcoes inferiores de cada tarefa-->
                   <div class="opcoes">
                     <select [(ngModel)]="tarefa.categoria" (change)="muda(tarefa)" class="trocaCat"
@@ -47,15 +59,17 @@
   </div>
 </body>
 <!--Parte dos inputs de cadstro-->
-<div id="cadastro" *ngIf="cadastro">
-  <div id="cadastro2" #cadastro2>
+<div id="cadastro" *ngIf="cadastro" class="popup">
+  <div id="cadastro2" class="popup2" #cadastro2>
     <button (click)="cadastrar()" id="cancelarCadastro">x</button>
     <input placeholder="Título" [(ngModel)]="tarefaCadastro.titulo" id="titulo">
-    <span *ngIf="semTituloETexto" class="erro">* Por favor, preencha o titulo ou a descrição!</span>
-
-    <textarea (input)="tamanhoTextArea()" placeholder="Descrição" [(ngModel)]="tarefaCadastro.texto"
-      id="descricao"></textarea>
-    <span *ngIf="semTituloETexto" class="erro">* Por favor, preencha o titulo ou a descrição!</span>
+    
+    <div *ngFor="let propriedade of listaDePropriedade">
+      <input *ngIf="propriedade.tipo!='select'" [type]="propriedade.tipo">
+      <select *ngIf="propriedade.tipo=='select'">
+        <option *ngFor="let opcao of propriedade.opcoes" [value]="opcao">{{opcao}}</option>
+      </select>
+    </div>
 
     <select required [(ngModel)]="tarefaCadastro.categoria" id="categoria">
       <option value="" disabled selected>--Categoria--</option>
@@ -67,8 +81,31 @@
     <button (click)="CadastrarTarefa()" id="enviar">Cadastrar</button>
   </div>
 </div>
-<div id="alerta" *ngIf="alerta">
-  <div id="alerta2" #alerta>
+
+<!--Parte do cadastro de propriedades-->
+<div *ngIf="cadastroDePropriedades" class="popup">
+  <div class="popup2" id="cadastroPropriedade" #cadastroPropriedade>
+    <button (click)="mostrarCadastroPropriedade()" class="cancelar">x</button>
+    <input type="text" [(ngModel)]="propriedade.nome">
+    <select [(ngModel)]="propriedade.tipo">
+      <option value="text">Texto</option>
+      <option value="number">Número</option>
+      <option value="select">Seleção</option>
+    </select>
+    <div *ngIf="isSelecao()" id="selecao">
+      <div><input type="text" [(ngModel)]="opcaoCadastro">
+        <button (click)="adicionaOpcao()">+</button>
+      </div>
+      <div *ngFor="let opcao of propriedade.opcoes">{{opcao}}</div>
+    </div>
+    <button (click)="cadastrarPropriedade()">Enviar</button>
+
+  </div>
+</div>
+
+<!--Alerta de alteração de tarefa-->
+<div id="alerta" *ngIf="alerta" class="popup">
+  <div id="alerta2" class="popup2" #alerta>
     <button (click)="fechaAlerta()" class="cancelar">x</button>
     <h4>Você não pode cadastrar uma tarefa sem título ou descrição!</h4>
   </div>

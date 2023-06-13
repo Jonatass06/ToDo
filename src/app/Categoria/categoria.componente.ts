@@ -51,7 +51,9 @@ export class CategoriaComponent implements AfterViewChecked  {
                 this.cadastro = false
             }, 250)
             this.categoriaCor = "purple";
-            this.categoriaNome = ""
+            this.categoriaNome = "";
+            this.permissao = true;
+            this.vazio = false;
         }
     }
 
@@ -100,6 +102,9 @@ export class CategoriaComponent implements AfterViewChecked  {
                 this.permissao = false;
             }
         }
+        if(this.categoriaNome == ""){
+            this.vazio = true;
+        }
         if (this.categoriaNome != "" && this.permissao) {
             let categoriaParaCadastro: Categoria = { nome: this.categoriaNome };
             categoriaParaCadastro = { nome: this.categoriaNome, cor: this.categoriaCor };
@@ -107,9 +112,6 @@ export class CategoriaComponent implements AfterViewChecked  {
             localStorage.setItem('categorias', JSON.stringify(this.categorias));
             this.categoriaNome = '';
             this.categoriaCor = 'purple'
-        }
-        if(this.categoriaNome == ""){
-            this.vazio = true;
         }
     }
 
