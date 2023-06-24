@@ -1,0 +1,58 @@
+<body>
+  <main>
+    <button (click)="abrirCadastro()" [disabled]="!hasPermission('Add')">Enviar</button>
+    <table>
+      <thead>
+        <td>Nome</td>
+        <td>Tipo</td>
+        <td>Opções</td>
+        <td>Visibilidade</td>
+      </thead>
+      <tbody>
+        <tr *ngFor="let propriedade of listaDePropriedade">
+          <td><input type="text"  [(ngModel)]="propriedade.nome" 
+            [disabled]="!hasPermission('Edit')" (input)="muda()"></td>
+          <td>
+            <select (change)="muda()" [(ngModel)]="propriedade.tipo" [disabled]="!hasPermission('Edit')">
+              <option value="text">Texto</option>
+              <option value="number">Número</option>
+              <option value="select">Seleção</option>
+            </select>
+          <td>
+              <span *ngFor="let opcao of getOpcoes(propriedade); index as indice">
+              <input type="text" (blur)="mudaOpcoes($event.target.value, indice, propriedade)"
+              [disabled]="!hasPermission('Edit')" [value]="opcao">
+            </span>
+          </td>
+          <td>
+            <button (click)="mudarVisibilidade(propriedade)" [disabled]="!hasPermission('Edit')">
+              <img class="imagemDeOlho" [src]="visibilidade(propriedade)">
+            </button>
+          </td>
+          <td>
+            <button (click)="excluirPropriedade(propriedade)" [disabled]="!hasPermission('Remove')">
+              Del
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+  <div>
+    <input type="texto" [(ngModel)]="propriedadeCadastro.nome">
+    <select [(ngModel)]="propriedadeCadastro.tipo">
+      <option value="text">Texto</option>
+      <option value="number">Número</option>
+      <option value="select">Seleção</option>
+    </select>
+    <div *ngIf="propriedadeCadastro.tipo=='select'">
+      <input type="text" [(ngModel)]="opcaoACadastrar">
+      <button (click)="cadastrarOpcao()" >+</button>
+      <div *ngFor="let opcao of propriedadeCadastro.opcoes">
+        {{opcao}}
+        <button (click)="deletarOpcao(opcao)">X</button>
+      </div>
+    </div>
+    <button (click)="cadastrarPropriedade()">Enviar</button>
+  </div>
+</body>

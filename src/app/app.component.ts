@@ -6,10 +6,17 @@
 - tirar logica do html
 - ajeitar prolema de trocar categorias e taraefas para espaco vazio, inclusive em pesquisa
 */
+/*
+-------css
+-------editar tarefa e propriedade
+-------cor propriedade
+*/
 
 import { Component, OnInit, ElementRef, Output, EventEmitter, ViewChild, Renderer2 } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { PesquisaComponent } from './Pesquisa/pesquisa.component';
+import { UserRepository } from 'src/repositories/user.repository';
+import { User } from 'src/models/users/user';
 
 interface Tarefa {
   texto: string,
@@ -30,7 +37,7 @@ interface Categoria {
 })
 
 export class AppComponent implements OnInit {
-
+  
   //faz aparecer o menu lateral
   secao: boolean = true;
   //muda o tema do site
@@ -39,7 +46,9 @@ export class AppComponent implements OnInit {
   //pesquisa
   pesquisa: string = '';
 
-  constructor(private el: ElementRef, private router: Router, private renderer: Renderer2) { }
+ constructor(private router: Router, private renderer: Renderer2)
+ {}
+
 
   @ViewChild('secao') myElementRef: ElementRef;
   //faz o menu aparecer ou desaparecer
@@ -115,4 +124,6 @@ export class AppComponent implements OnInit {
     }
     this.router.navigate(["/pesquisa"]);
   }
+
+  
 }

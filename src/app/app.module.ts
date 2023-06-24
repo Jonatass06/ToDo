@@ -3,9 +3,10 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { AppRountingModule } from './app-routing.module';
-import { CategoriaModule } from './Categoria/categoria.module';
 import { TodoModule } from './Todo/todo.module';
 import { PesquisaModule } from './Pesquisa/pesquisa.module';
+import { UserRepository } from 'src/repositories/user.repository';
+import { PropriedadeModule } from './Propriedade/propriedade.module';
 
 
 @NgModule({
@@ -16,9 +17,12 @@ import { PesquisaModule } from './Pesquisa/pesquisa.module';
     BrowserModule,
     FormsModule,
     AppRountingModule,
-    CategoriaModule,
     TodoModule,
+    PropriedadeModule,
     PesquisaModule
+  ],
+  providers: [
+    UserRepository
   ],
   bootstrap: [AppComponent]
 })
