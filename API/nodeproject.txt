@@ -1,0 +1,13 @@
+npm init --y 
+
+============instalando biblioteca================
+npm install express - (expressjs.com) - (para criar o servidor nodejs, a api em si)
+npm install sequelize - (sequelize.org) - (para consumir o banco de dados)
+npm install sqlite3 - (basicamente a linguagem do banco de dados)
+npm install cors - (
+npm install nodemon --save-dev (dependencia de desenvolvimento, autorecompiler)
+
+https://github.com/remy/nodemon/wiki (opcoes de configuração do node) --> -w
+
+thunder client (faz teste de requisição)
+

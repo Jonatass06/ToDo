@@ -1,0 +1,11 @@
+<script>
+    console.log('comecando a buscar os dados');
+
+    fetch('http://localhost:4300/usuarios',
+	{method: 'GET'})
+	.then((r) => r.json())
+	.then((m) => {console.log('messagem: ',m);})
+	.catch((e) => { console.log("erro ", e); });
+
+</script>
+
