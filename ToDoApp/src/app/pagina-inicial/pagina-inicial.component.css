@@ -1,0 +1,162 @@
+
+/* botõese em geral, mas no caso, botoes do menu lateral*/
+button:hover {
+    color: rgb(var(--cor-texto));
+}
+
+button {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(var(--cor-app));
+    border: none;
+    padding: 1em;
+    text-align: start;
+    width: 18vw;
+    border-radius: 0px 20px 20px 0px;
+    height: 6vh;
+    font-size: 0.9em;
+}
+
+
+section,
+header {
+    display: flex;
+    max-width: 100%;
+    margin: 0;
+    text-align: center;
+    color: var(--cor-contraste);
+}
+/*Manu Lateral*/
+section {
+    flex-direction: column;
+    padding-top: 1vh;
+    width: 19vw;
+    height: auto;
+    background-color: rgba(var(--cor-texto), 0.02);
+    animation: aparece 0.3s ease-in;
+}
+
+/*Div Do Cabecalho*/
+#divHeader{
+    display: flex; 
+    align-items: center;
+}
+/*Cabecalho*/
+header {
+    background-color: rgb(var(--cor-app));
+    justify-content: space-between;
+    height: 4vh;
+    padding: 1vw;
+    padding-right: 1vw;
+    max-width: 100%;
+}
+
+/*Select do Tema */
+#tema{
+    border-color:var(--cor-contraste); 
+    color:var(--cor-contraste);
+    appearance: none;
+    padding: 0.5em;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+/*Opcoes do select*/
+select option {
+    text-align: center;
+    color: var(--cor-contraste);
+    background-color: rgb(var(--cor-app));
+}
+
+/*Emoji das opcoes do menu*/
+.emoji{
+    margin:0 2vw 0 1vw;
+}
+
+/*Parte da pagina em si */
+#pagina{
+    display: flex; 
+    justify-content:start ;
+    max-width: 100%;
+    position: relative;
+    height: 100%;
+}
+/*os componentes*/
+#divComponentes{
+    display: flex; 
+    flex-direction: column;
+    margin-top:3vh; 
+    max-width: 100%;
+    align-items: center;
+    width: 100%;
+}
+router-outlet{
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+}
+
+/*Botão de expansão do menu lateral*/
+#menu {
+    border-radius: 100%;
+    font-size: 1.5em;
+    border: none;
+    color: var(--cor-contraste);
+    padding: 0.4em 0.5em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0);
+}
+#menu:hover{
+    background-color: rgba(0,0,0,0.1);
+}
+
+/*Pesquisa*/
+#pesquisa {
+    border-color: var(--cor-contraste);
+    background-color: rgba(0, 0, 0, 0);
+    width: 30vw;
+    height: 4.5vh;
+    border-radius: 50px;
+    border: 1px solid var(--cor-contraste);
+    color: var(--cor-contraste);
+    padding: 0 1vw;
+}
+#pesquisa::placeholder{
+    color: var(--cor-contraste);
+}
+
+/*div da barara de pesquisa*/
+#divPesquisa{
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+
+/*Referente ao padrão dos botões*/
+button{
+    background-color: rgba(0, 0, 0, 0);
+}
+button:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/*Titulo do site*/
+h1 {
+    margin: 0 1vw;
+    font-size: 1.4em;
+}
+
+/*Tentativa do router link active*/
+.ativo{
+    border: 1px solid rgb(var(--cor-app));
+    background-color: rgba(0, 0, 0, 0.05);
+}
+

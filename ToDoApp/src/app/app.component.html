@@ -1,0 +1,8 @@
+<div *ngIf="!hide">
+    <button routerLink="/login">Login</button>
+    <button routerLink="/singup">Cadastro</button>
+</div>
+<button routerLink="/login" *ngIf="hide" (click)="logout()">logout</button>
+
+
+<router-outlet (change)="login()"></router-outlet>

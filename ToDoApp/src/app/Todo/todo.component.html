@@ -1,0 +1,59 @@
+<div id="divFiltro">
+  <!-- Select que determina a propriedade filtro da pagina -->
+  <select [(ngModel)]="propriedadeFiltro" (ngModelChange)="mudaFiltro()" id="filtro">
+    <ng-container *ngFor="let filtro of listaDePropriedade">
+      <option *ngIf="filtro.visibility" [value]="objetoParaString(filtro)">{{filtro.name}}</option>
+    </ng-container>
+  </select>
+</div>
+
+<body>
+  <main id="tudo">
+    <div id="espacamento">
+      <!-- Colunas da pagina, relacionadas as propridades -->
+      <section *ngFor="let filtro of filtrar()" (drop)="drop($event, filtro)" (dragover)="tiraBloqueio($event)"
+        class="colunas">
+        <h2 *ngIf="seTipoSelecao(filtroDeTarefas) && filtro != ''">{{filtro}}</h2>
+        <h2 *ngIf="seTipoSelecao(filtroDeTarefas) && filtro == ''">Nenhum(a)</h2>
+        <!-- Tarefas em si -->
+        <div *ngFor="let tarefa of filtrarTarefa(filtro)" class="caixaTarefa"
+          [draggable]="seTipoSelecao(filtroDeTarefas) && hasPermission('MoveCard')"
+          (dragstart)="defineTarefaArrastando(tarefa)" (dragover)="defineTarefaAbaixo($event, tarefa)">
+          <input [disabled]="!hasPermission('Edit')" (input)="salvar()" [(ngModel)]="tarefa.title" class="titulo">
+          <!-- As propriedades e seus valores em cada tarefa -->
+          <div *ngFor="let propriedade of tarefa.properties; index as indice" class="propriedadeNaTarefa">
+            <p class="nomePropriedade" *ngIf="!seTipoSelecao(propriedade) && testeVisibilidade(indice)">{{propriedade.name}}:</p>
+            <input *ngIf="testeVisibilidade(indice) && !seTipoSelecao(propriedade)" (blur)="salvar()"
+              [disabled]="!hasPermission('Edit')" [type]="propriedade.type" [(ngModel)]="propriedade.value">
+            <select *ngIf="testeVisibilidade(indice) && seTipoSelecao(propriedade)"
+              [(ngModel)]="propriedade.value" (change)="salvar()" [disabled]="!hasPermission('Edit')">
+              <option value=""></option>
+              <option *ngFor="let opcao of propriedade.options" [value]="opcao">{{opcao}}</option>
+            </select>
+          </div>
+          <div class="divBotaoExcluir">
+            <button (click)="excluirTarefas(tarefa)" [disabled]="!hasPermission('Remove')">🗑️</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <!-- Botão que faz aparecer o cadastro de tarefas -->
+  <button [disabled]="!hasPermission('Add')" (click)="mudaCadastro()" id="add">+</button>
+  <!-- Cadastro de tarefas -->
+</body>
+<div *ngIf="cadastro" class="fundoPopup">
+  <div class="popup">
+    <button (click)="mudaCadastro()">X</button>
+    <input type="text" [(ngModel)]="tarefaCadastro.title">
+    <div *ngFor="let propriedade of tarefaCadastro.properties; index as indice">
+      <input *ngIf="listaDePropriedade[indice].visibility && !seTipoSelecao(propriedade)" [type]="propriedade.type"
+        [(ngModel)]="propriedade.value">
+      <select *ngIf="listaDePropriedade[indice].visibility && seTipoSelecao(propriedade)" [(ngModel)]="propriedade.value">
+        <option value=""></option>
+        <option *ngFor="let opcao of propriedade.options" [value]="opcao">{{opcao}}</option>
+      </select>
+    </div>
+    <button (click)="cadastrarTarefa()">Enviar</button>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<header>
+  <!--Cabeçalho-->
+  <div id="divHeader">
+    <input type="button" id="menu" (click)="menu()" value="☰">
+    <h1>Tarefas</h1>
+  </div>
+  <!-- <div id="divPesquisa">
+    <input id="pesquisa" placeholder="🔍 Pesquisa" type="text" [(ngModel)]="pesquisa" 
+    (keyup)="pesquisar(); parouPesquisa()" (keydown)="mudaPagina()">
+  </div> -->
+  <!--Tema-->
+  <select [(ngModel)]="tema" (change)="mudaTema()" id="tema">
+    <option value="Dark">Dark</option>
+    <option value="Light">Light</option>
+  </select>
+</header>
+
+<div id="pagina">
+  <!--Menu Lateral-->
+  <section #secao *ngIf="secao" id="secao" >
+    <!-- [ngClass]="todo?'ativo':'desativado'" -->
+    <button (click)="goingTodo()"> <span class="emoji">📋</span>
+      Tarefas</button>
+    <button (click)="goingProperty()"> <span class="emoji">🏷️</span>
+      Propriedades</button>
+  </section>
+  <!--Componentes-->
+  <div id="divComponentes">
+    <todo-app *ngIf="todo"></todo-app>
+    <property-app  *ngIf="property"></property-app>
+  </div>
+</div>

@@ -1,0 +1,182 @@
+button {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.disable {
+    opacity: 50%;
+    pointer-events: none;
+}
+
+.enable,
+.disable {
+    height: 100%;
+}
+.enable{
+    cursor: pointer;
+}
+
+.disable:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 20%);
+    grid-template-rows: repeat(5, 20%);
+}
+
+th {
+    border-color: rgb(var(--cor-app));
+    color: rgb(var(--cor-app));
+    border: 1px solid rgb(var(--cor-app));
+}
+
+td,
+th {
+    text-align: center;
+    position: relative;
+}
+
+td>input {
+    height: 100%;
+}
+
+td>*,
+td>*>* {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: none;
+    appearance: none;
+}
+
+.deletar>button {
+    height: 100%;
+}
+
+td {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+tr>* {
+    align-self: stretch;
+}
+
+.enable>*>img,
+.disable>*>img {
+    height: 3.1vh;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tipo>select {
+    min-height: 100%;
+    width: 100%;
+    padding: 2vh 2vw;
+}
+
+.propriedade {
+    height: 100%;
+}
+
+.nome>input,
+th {
+    height: 100%;
+    padding: 2vh 2vw;
+}
+
+.mostrarCadastro {
+    font-size: 1.5rem;
+    color: rgb(var(--cor-app));
+}
+
+#cadastro {
+    padding: 5vh 3.5vw;
+}
+
+#cadastro>input,
+#cadastro>*>input {
+    height: 5vh;
+    width: 15vw;
+    border: 1px solid rgba(var(--cor-texto), 0.5);
+}
+
+#cadastro>select,
+.botaoAdicionarOpcao {
+    height: 5.5vh;
+    width: 5vw;
+    border: 1px solid rgba(var(--cor-texto), 0.5);
+    appearance: none;
+    text-align: center;
+}
+
+#cadastro>select {
+    height: 5.51vh;
+}
+
+.botaoFechar {
+    position: absolute;
+    top: 2vh;
+    right: 1vw;
+    color: rgba(var(--cor-texto), 0.4);
+    font-weight: bold;
+}
+
+
+#cadastrarNovaOpcao {
+    padding: 2vh 1vw;
+    backdrop-filter: none;
+}
+#cadastrarNovaOpcao >button{
+    border: 1px solid rgba(var(--cor-texto), 0.6);
+}
+
+.opcoes {
+    text-align: center;
+
+}
+#divBotaoEnviar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20.5vw;
+    height: 5vh;
+    margin-top: 2vh;
+}
+.enviar{
+    border-radius: 20px;
+    background-color: rgb(var(--cor-app));
+    color:var(--cor-contraste);
+    padding: 4vh, 2vw;
+    height: 100%;
+    width: 100%;
+    font-size: 0.8em;
+}
+.botaoExcluirOpcao {
+    border: 1px solid rgba(var(--cor-texto), 0.5);
+}
+.cadastrarMaisOpcoes{
+    position: relative;
+}
+button{
+    cursor:pointer;
+}
+
+.deletar > button{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

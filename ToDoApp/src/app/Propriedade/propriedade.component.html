@@ -1,0 +1,83 @@
+<main>
+  <table>
+    <thead>
+      <th class="nome">Nome</th>
+      <th class="tipo">Tipo</th>
+      <th class="opcoes">Opções</th>
+      <th class="visibilidade">Visibilidade</th>
+      <th class="deletar">
+        <button (click)="mudaCadastro()" [disabled]="!hasPermission('Add')" class="mostrarCadastro">+</button>
+      </th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let propriedade of listaDePropriedades" class="propriedade">
+        <!-- nome -->
+        <td class="nome">
+          <input type="text" [(ngModel)]="propriedade.name" [disabled]="!hasPermission('Edit')" 
+          (blur)="muda(propriedade)" (focus)="defineAntigaProp(propriedade)">
+        </td>
+        <!-- tipo -->
+        <td class="tipo">
+          <select [(ngModel)]="propriedade.type"  (change)="muda(propriedade)"  
+          [disabled]="!hasPermission('Edit')" (focus)="defineAntigaProp(propriedade)">
+            <option value="text">Texto</option>
+            <option value="number">Número</option>
+            <option value="select">Seleção</option>
+          </select>
+        </td>
+        <!-- opcoes -->
+        <td class="opcoes">
+          <div *ngFor="let opcao of getOpcoes(propriedade); index as indice" class="opcaoDiv">
+            <input type="text" (blur)="mudaOpcoes($event.target.value, indice, propriedade)"
+              [disabled]="!hasPermission('Edit')" [value]="opcao">
+            <button (click)="deletarOpcao(opcao, propriedade)" [disabled]="!hasPermission('Edit')"
+              *ngIf="seTipoSelecao(propriedade)" class="botaoExcluirOpcao">x</button>
+          </div>
+          
+          <button (click)="abrirCadastroOpcao(propriedade)" [disabled]="!hasPermission('Edit')"
+          *ngIf="seTipoSelecao(propriedade) && !adicionarOpcao" class="cadastrarMaisOpcoes">+</button>
+      <!-- adição de novas opcoes -->
+      <tr *ngIf="adicionarOpcao && igualAPropriedade(propriedade)" id="cadastrarNovaOpcao">
+        <button (click)="abrirCadastroOpcao()">x</button>
+        <input type="text" [(ngModel)]="opcaoACadastrar">
+        <button (click)="cadastrarOpcao(propriedadeCadastro)" class="enviar">Enviar</button>
+      </tr>
+      </td>
+      <!-- visibilidade -->
+      <td [class]="hasPermission('Edit')?'enable':'disable'" (click)="mudarVisibilidade(propriedade)">
+        <div class="flex">
+          <img [src]="visibilidade(propriedade)">
+        </div>
+      </td>
+      <!-- deletar -->
+      <td class="deletar" (click)="excluirPropriedade(propriedade)" 
+      [class]="hasPermission('Edit')?'enable':'disable'">🗑️</td>
+      </tr>
+    </tbody>
+  </table>
+</main>
+<div *ngIf="cadastro" class="fundoPopup">
+  <div class="popup" id="cadastro">
+    <button (click)="mudaCadastro()" class="botaoFechar">X</button>
+    <!-- nome -->
+    <input type="texto" [(ngModel)]="propriedadeCadastro.name">
+    <!-- tipo -->
+    <select [(ngModel)]="propriedadeCadastro.type">
+      <option value="text">Texto</option>
+      <option value="number">Número</option>
+      <option value="select">Seleção</option>
+    </select>
+    <!-- cadastro opcoes -->
+    <div *ngIf="seTipoSelecao(propriedadeCadastro)">
+      <input type="text" [(ngModel)]="opcaoACadastrar">
+      <button (click)="cadastrarOpcao(propriedadeCadastro)" class="botaoAdicionarOpcao">+</button>
+      <div *ngFor="let opcao of propriedadeCadastro.options" class="opcoes">
+        {{opcao}}
+        <button (click)="deletarOpcao(opcao, propriedadeCadastro)" class="botaoExcluirOpcao">X</button>
+      </div>
+    </div>
+    <div id="divBotaoEnviar">
+      <button (click)="cadastrarPropriedade()" class="enviar">Enviar</button>
+    </div>
+  </div>
+</div>
