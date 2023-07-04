@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TodoComponent } from './todo.component';
 import { FormsModule } from '@angular/forms';
-import { PropriedadeModule } from '../Propriedade/propriedade.module';
-import { UserLogIn } from 'src/services/userLogIn';
+import { PropriedadeModule } from '../propriedade/propriedade.module';
 
 
 @NgModule({
@@ -17,9 +16,6 @@ import { UserLogIn } from 'src/services/userLogIn';
   exports: [
     TodoComponent
   ],
-  providers:[
-    UserLogIn
-  ]
 })
 
 export class TodoModule { }

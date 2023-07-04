@@ -1,42 +1,64 @@
-import { AfterContentInit, AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { UserLogIn } from 'src/services/userLogIn';
 import { filter } from 'rxjs/operators';
+import { User } from 'src/models/users/user';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
-  hide:boolean = false;
+  hide: boolean = false;
 
-  ngOnInit(): void {
-    if(this.userLogIn.getUserLogin()==null){
+  userLogin: User;
+
+  async ngOnInit() {
+    //=======================================
+    var cookieName = "User=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookieArray = decodedCookie.split(';');
+
+    for (var i = 0; i < cookieArray.length; i++) {
+      var cookie = cookieArray[i];
+      while (cookie.charAt(0) === ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf(cookieName) === 0) {
+        this.userLogin = await JSON.parse(cookie.substring(cookieName.length, cookie.length));
+      }
+    }
+    //=========================================
+
+    if(this.userLogin == null){
       this.router.navigate(["/login"])
     }
   }
 
-  constructor(private userLogIn:UserLogIn, private router:Router){
+  constructor(private router: Router) {
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.hideLoginAndSingup();
+
       });
   }
 
-  hideLoginAndSingup():void{
-    console.log(this.userLogIn.getUserLogin())
-    if(this.userLogIn.getUserLogin() == null){
+  hideLoginAndSingup(): void {
+    if (this.userLogin == null) {
       this.hide = false;
-    } else{
+    } else {
       this.hide = true;
     }
   }
 
-  logout(){
-      this.userLogIn.setUserLogIn(null);
-      location.reload();
-    }
+  logout() {
+    this.userLogin = null;
+    location.reload();
+    var d = new Date();
+    d.setTime(d.getTime() + (0 * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = "User" + "=" + null + ";" + expires + ";path=/";
+  }
 }

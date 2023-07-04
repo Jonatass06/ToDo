@@ -1,4 +1,5 @@
 const express = require("express");
+const CardPermissions = require("../models/cardPermissions");
 const routes = express.Router();
 const Usuario =require ("../models/usuario")
 
@@ -15,7 +16,12 @@ function findAllRoute(){
 }
 function findByIdRoute(){
     routes.get('/usuarios/:id', async(req, res)=>{
-        res.json(await Usuario.findOne({where:{id:req.params.id}}), null, 2)
+        const usuario = await Usuario.findOne(req.params, {
+            where:{
+                id:req.params.id,
+            }
+        });
+        res.json(usuario, null, 2);
     });
 }
 

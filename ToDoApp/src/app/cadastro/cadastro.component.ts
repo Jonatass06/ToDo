@@ -9,7 +9,7 @@ import { UserRepository } from 'src/repositories/user.repository';
 })
 export class CadastroComponent  {
 
-  singupUser:User = new User('','', '', '')
+  singupUser:User = new User('','', '', '', [], [])
   private users: User[] = [];
   constructor(
 

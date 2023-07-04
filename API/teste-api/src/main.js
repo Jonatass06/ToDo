@@ -11,7 +11,9 @@ app.use(router);
 
 require("./database/connection")
 require("./usuarios/models/usuario")
-
+require("./usuarios/models/cardPermissions")
+require("./usuarios/models/groups")
+require("./usuarios/models/propertyPermissions")
 
 app.listen(4300, () =>{
     console.log("servidor rodando")

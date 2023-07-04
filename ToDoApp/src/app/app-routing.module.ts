@@ -1,7 +1,7 @@
 import { Route, RouterModule } from "@angular/router"
 import { NgModule } from '@angular/core';
-import { TodoComponent } from "./Todo/todo.component";
-import { PropriedadeComponent } from "./Propriedade/propriedade.componente";
+import { TodoComponent } from "./todo/todo.component";
+import { PropriedadeComponent } from "./propriedade/propriedade.componente";
 import { AuthGuardService } from "src/services/auth-guard.service";
 import { PaginaInicialComponent } from "./pagina-inicial/pagina-inicial.component";
 import { CadastroComponent } from "./cadastro/cadastro.component";

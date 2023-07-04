@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PropriedadeComponent } from './propriedade.componente';
 import { FormsModule } from '@angular/forms';
-import { UserLogIn } from 'src/services/userLogIn';
 
 
 @NgModule({
@@ -16,9 +15,6 @@ import { UserLogIn } from 'src/services/userLogIn';
   exports: [
     PropriedadeComponent
   ],
-  providers:[
-    UserLogIn
-  ]
 })
 
 export class PropriedadeModule { }

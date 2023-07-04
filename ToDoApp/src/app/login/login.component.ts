@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/models/users/user';
 import { UserRepository } from 'src/repositories/user.repository';
-import { UserLogIn } from 'src/services/userLogIn';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +15,11 @@ export class LoginComponent implements OnInit {
     
   }
 
-  loginUser:User = new User('','', '', '')
+  loginUser:User = new User('','', '', '', [], [])
 
   private users: User[] = [];
 
   constructor(
-    private userLogIn: UserLogIn,
     private userRepository: UserRepository,
     private route:Router
   ) {
@@ -40,7 +38,7 @@ export class LoginComponent implements OnInit {
       this.userRepository.getUserById(this.loginUser).subscribe(
         user => {
           if(user.password == this.loginUser.password){
-            this.userLogIn.setUserLogIn(user);
+            this.setCookie("User", JSON.stringify(user), 1)
             this.route.navigate(["/initialPage"])
 
           } else{
@@ -53,5 +51,10 @@ export class LoginComponent implements OnInit {
         }
       )
     }
-  
+    setCookie(name, value, days) {
+      var d = new Date();
+      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+      var expires = "expires=" + d.toUTCString();
+      document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
 }

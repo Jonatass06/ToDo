@@ -3,11 +3,10 @@ import { Property } from "src/models/tasks/properties";
 import { Task } from "src/models/tasks/task";
 import { User } from "src/models/users/user";
 import { UserRepository } from "src/repositories/user.repository";
-import { UserLogIn } from "src/services/userLogIn";
 
 @Component({
-  selector: 'property-app',
-  templateUrl: './propriedade.component.html',
+    selector: 'property-app',
+    templateUrl: './propriedade.component.html',
     styleUrls: ['./propriedade.component.css']
 })
 
@@ -19,6 +18,21 @@ export class PropriedadeComponent {
         if (localStorage.getItem("listaDePropriedades") != undefined) {
             this.listaDePropriedades = JSON.parse(localStorage.getItem("listaDePropriedades"));
         }
+        //=======================================
+        var cookieName = "User=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var cookieArray = decodedCookie.split(';');
+
+        for (var i = 0; i < cookieArray.length; i++) {
+            var cookie = cookieArray[i];
+            while (cookie.charAt(0) === ' ') {
+                cookie = cookie.substring(1);
+            }
+            if (cookie.indexOf(cookieName) === 0) {
+                this.user = JSON.parse(cookie.substring(cookieName.length, cookie.length));
+            }
+        }
+        //=========================================
     }
 
     //---------------------------------------------Usuario------------------------------------------------
@@ -26,16 +40,13 @@ export class PropriedadeComponent {
     private users: User[] = [];
     private user: User | undefined;
 
-    constructor(private userRepository: UserRepository, private userLogIn:UserLogIn) {
+    constructor(private userRepository: UserRepository) {
         userRepository.getUsers().subscribe({
             next: (value) => {
                 this.users = value
                 console.log(value)
             }
         })
-        this.userLogIn.getUserLogin().subscribe((user: User) => {
-            this.user = user; 
-          })
     }
     //define se o usuario cadastrado tem permissão para determinada ação
     hasPermission(permission: string): boolean {
@@ -219,7 +230,7 @@ export class PropriedadeComponent {
         }
 
         let listaTarefas = this.pegarListaTarefas();
-        if(listaTarefas!=null){
+        if (listaTarefas != null) {
             for (let tarefa of listaTarefas) {
                 for (let prop of tarefa.properties) {
                     if (prop.name == this.antigaProp.name &&
@@ -246,14 +257,14 @@ export class PropriedadeComponent {
     igualAPropriedade(Propriedade: Property) {
         return this.propriedadeCadastro == Propriedade;
     }
-    mudarPropriedadeNaTarefa(propriedade:Property){
+    mudarPropriedadeNaTarefa(propriedade: Property) {
         let listaTarefas = this.pegarListaTarefas();
     }
 
-    pegarListaTarefas(){
+    pegarListaTarefas() {
         if (localStorage.getItem('listaTarefas') != null) {
             return JSON.parse(localStorage.getItem('listaTarefas'));
-        } 
+        }
         return null;
     }
 }

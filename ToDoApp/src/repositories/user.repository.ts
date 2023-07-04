@@ -3,6 +3,8 @@ import { User } from "src/models/users/user";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { map} from "rxjs/operators";
+import { Property } from "src/models/tasks/properties";
+import { PropertyPermissions } from "src/models/users/propertyPermissions";
 
 
 const API_URL = 'http://localhost:4300/usuarios';
@@ -17,7 +19,7 @@ export class UserRepository {
         .pipe(map(values =>{
             const users: User[] = [];
             for (const value of values){
-                users.push(Object.assign(new User('','','',''),value))
+                users.push(Object.assign(new User('','','','', [], []),value))
             }
             return users;
         }));

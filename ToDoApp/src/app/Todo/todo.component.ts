@@ -2,9 +2,10 @@ import { Component, Renderer2, ElementRef, OnInit, Output, EventEmitter, ViewChi
 import { Observable } from 'rxjs';
 import { Property } from 'src/models/tasks/properties';
 import { Task } from 'src/models/tasks/task';
+import { CardPermissions } from 'src/models/users/cardPermissions';
 import { User } from 'src/models/users/user';
+import { CardPermissionsRepository } from 'src/repositories/cardPermissions';
 import { UserRepository } from 'src/repositories/user.repository';
-import { UserLogIn } from 'src/services/userLogIn';
 
 @Component({
   selector: 'todo-app',
@@ -83,31 +84,50 @@ export class TodoComponent implements OnInit {
 
   private userId: string = 'diogo.defante';
   private users: User[] = [];
-  private user: User | undefined | Observable<User>;
+  private user: User;
 
   constructor(
 
     private userRepository: UserRepository,
-    private userLogIn: UserLogIn
+    private cardPermissionsRepository: CardPermissionsRepository,
   ) {
     this.userRepository.getUsers().subscribe({
       next: (value) => {
         this.users = value
         console.log(this.users)
-      }})
-        this.user = this.userLogIn.getUserLogin()
+      }
+    })
+    //=======================================
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var cookieArray = decodedCookie.split(';');
+
+    for (var i = 0; i < cookieArray.length; i++) {
+      var cookie = cookieArray[i];
+      while (cookie.charAt(0) === ' ') {
+        cookie = cookie.substring(1);
+      }
+      if (cookie.indexOf("User=") === 0) {
+        this.user = JSON.parse(cookie.substring("User=".length, cookie.length));
+      }
     }
+    //=========================================
+  }
 
   //verifica se o usuario logado tem determinada permissão
   hasPermission(permission: string): boolean {
-    // if (this.user != undefined) {
-    //   return this.user.cardPermissions.some((cardPermission) => {
-    //     return cardPermission === permission;
-    //   });
-    // } else {
-    //   return false;
-    // }
-    return true;
+    if (this.user != undefined) {
+      this.cardPermissionsRepository
+      .getPropPermissionByUserId(this.user).subscribe({
+        next: (value)=>{
+          return value.some((cardPermissions) => {
+            return cardPermissions.type === permission;
+          });
+        }
+      });
+
+    } else {
+      return false;
+    }
   }
   //-------------------------------------------Editar---------------------------------------------------
 
@@ -155,7 +175,7 @@ export class TodoComponent implements OnInit {
 
   //tranforma filtro em objeto, para facilitar o codigo
   mudaFiltro(): void {
-    if(this.propriedadeFiltro!=undefined){
+    if (this.propriedadeFiltro != undefined) {
       this.filtroDeTarefas = JSON.parse(this.propriedadeFiltro)
     }
   }
@@ -167,15 +187,15 @@ export class TodoComponent implements OnInit {
     if (this.filtroDeTarefas != undefined) {
       if (this.filtroDeTarefas.type != 'select') {
         for (let valor of this.valoresPossiveis()) {
-            adicionar = true;
-            for (let valorTeste of lista) {
-              if (valor.value == valorTeste) {
-                adicionar = false;
-              }
+          adicionar = true;
+          for (let valorTeste of lista) {
+            if (valor.value == valorTeste) {
+              adicionar = false;
             }
-            if (adicionar) {
-              lista.push(valor.value);
-            }
+          }
+          if (adicionar) {
+            lista.push(valor.value);
+          }
         }
       }
       if (JSON.parse(this.propriedadeFiltro).type == 'text') {
@@ -191,20 +211,20 @@ export class TodoComponent implements OnInit {
     }
     return lista;
   }
-  valoresPossiveis():Property[]{
-    let lista:Property[] = [];
-    for(let tarefa of this.listaDeTarefas){
-    let adiciona:boolean = true;
-      for(let prop of tarefa.properties){
-        if(prop.name == this.filtroDeTarefas.name &&
-          prop.type == this.filtroDeTarefas.type){
-            for(let valor of lista){
-              adiciona = valor.value == prop.value?false:true;
-            }
-          } else{
-            adiciona = false;
+  valoresPossiveis(): Property[] {
+    let lista: Property[] = [];
+    for (let tarefa of this.listaDeTarefas) {
+      let adiciona: boolean = true;
+      for (let prop of tarefa.properties) {
+        if (prop.name == this.filtroDeTarefas.name &&
+          prop.type == this.filtroDeTarefas.type) {
+          for (let valor of lista) {
+            adiciona = valor.value == prop.value ? false : true;
           }
-          adiciona?lista.push(prop):null;
+        } else {
+          adiciona = false;
+        }
+        adiciona ? lista.push(prop) : null;
       }
     }
     return lista;
@@ -235,7 +255,7 @@ export class TodoComponent implements OnInit {
     return false;
   }
 
-  testeVisibilidade(indice:number){
+  testeVisibilidade(indice: number) {
     return this.listaDePropriedade[indice].visibility
   }
 }
