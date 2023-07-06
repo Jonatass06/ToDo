@@ -34,9 +34,10 @@ export class LoginComponent implements OnInit {
   @Output() loginSuccess = new EventEmitter
 
     logInUser(): void {
-      let user;
+
       this.userRepository.getUserById(this.loginUser).subscribe(
         user => {
+          console.log(user)
           if(user.password == this.loginUser.password){
             this.setCookie("User", JSON.stringify(user), 1)
             this.route.navigate(["/initialPage"])
@@ -50,6 +51,7 @@ export class LoginComponent implements OnInit {
           console.error(error);
         }
       )
+      this.loginUser = new User('','', '', '', [], [])
     }
     setCookie(name, value, days) {
       var d = new Date();

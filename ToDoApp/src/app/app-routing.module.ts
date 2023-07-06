@@ -11,6 +11,7 @@ const rotas: Route[] = [
     {
         path: 'singup',
         component: CadastroComponent,
+        canActivate:[AuthGuardService]
     },
     {
         path: 'initialPage',
@@ -18,23 +19,15 @@ const rotas: Route[] = [
         canActivate:[AuthGuardService]
     },
     {
-        path: 'tasks',
-        component: TodoComponent,
-        canActivate:[AuthGuardService]
-    },
-    {
-        path: 'properties',
-        component: PropriedadeComponent,
-        canActivate:[AuthGuardService]
-    },
-    {
         path: 'login',
         component: LoginComponent,
+        canActivate:[AuthGuardService]
     },
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'singup'
+        redirectTo: 'initialPage',
+        canActivate:[AuthGuardService]
     }
 ]
 

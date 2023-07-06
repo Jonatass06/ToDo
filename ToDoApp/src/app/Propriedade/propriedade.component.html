@@ -6,7 +6,7 @@
       <th class="opcoes">Opções</th>
       <th class="visibilidade">Visibilidade</th>
       <th class="deletar">
-        <button (click)="mudaCadastro()" [disabled]="!hasPermission('Add')" class="mostrarCadastro">+</button>
+        <button (click)="mudaCadastro()" [disabled]="!hasPermission('ADD')" class="mostrarCadastro">+</button>
       </th>
     </thead>
     <tbody>
@@ -51,7 +51,7 @@
       </td>
       <!-- deletar -->
       <td class="deletar" (click)="excluirPropriedade(propriedade)" 
-      [class]="hasPermission('Edit')?'enable':'disable'">🗑️</td>
+      [class]="hasPermission('REMOVE')?'enable':'disable'">🗑️</td>
       </tr>
     </tbody>
   </table>

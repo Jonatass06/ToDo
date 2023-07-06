@@ -1,5 +1,4 @@
-import { Component, Renderer2, ElementRef, OnInit, Output, EventEmitter, ViewChild, AfterContentInit, AfterViewInit, AfterViewChecked } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Property } from 'src/models/tasks/properties';
 import { Task } from 'src/models/tasks/task';
 import { CardPermissions } from 'src/models/users/cardPermissions';
@@ -81,23 +80,18 @@ export class TodoComponent implements OnInit {
 
 
   //-------------------------------------------Usuario---------------------------------------------------
-
-  private userId: string = 'diogo.defante';
-  private users: User[] = [];
   private user: User;
+  private userLoginPermissions: CardPermissions[];
 
   constructor(
 
     private userRepository: UserRepository,
     private cardPermissionsRepository: CardPermissionsRepository,
   ) {
-    this.userRepository.getUsers().subscribe({
-      next: (value) => {
-        this.users = value
-        console.log(this.users)
-      }
-    })
-    //=======================================
+    this.getCookie();
+  }
+
+  async getCookie() {
     var decodedCookie = decodeURIComponent(document.cookie);
     var cookieArray = decodedCookie.split(';');
 
@@ -107,28 +101,31 @@ export class TodoComponent implements OnInit {
         cookie = cookie.substring(1);
       }
       if (cookie.indexOf("User=") === 0) {
-        this.user = JSON.parse(cookie.substring("User=".length, cookie.length));
+        this.user = await JSON.parse(cookie.substring("User=".length, cookie.length));
+        this.getPermissions();
+
       }
     }
-    //=========================================
   }
-
-  //verifica se o usuario logado tem determinada permissão
-  hasPermission(permission: string): boolean {
+  async getPermissions() {
     if (this.user != undefined) {
-      this.cardPermissionsRepository
-      .getPropPermissionByUserId(this.user).subscribe({
-        next: (value)=>{
-          return value.some((cardPermissions) => {
-            return cardPermissions.type === permission;
-          });
-        }
-      });
-
-    } else {
-      return false;
+      this.userLoginPermissions = await this.cardPermissionsRepository
+        .getCardPermissionByUserId(this.user).toPromise()
     }
   }
+  //verifica se o usuario logado tem determinada permissão
+  hasPermission(permission: string): boolean {
+    if (this.userLoginPermissions != undefined) {
+      for (let cardPermissions of this.userLoginPermissions) {
+        if (cardPermissions.type == permission) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+
   //-------------------------------------------Editar---------------------------------------------------
 
   //metodo usado para mudar uma propriedade de uma tarefa

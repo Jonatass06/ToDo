@@ -1,7 +1,9 @@
 import { AfterViewChecked, Component, ElementRef, Renderer2, ViewChild } from "@angular/core";
 import { Property } from "src/models/tasks/properties";
 import { Task } from "src/models/tasks/task";
+import { PropertyPermissions } from "src/models/users/propertyPermissions";
 import { User } from "src/models/users/user";
+import { PropertyPermissionsRepository } from "src/repositories/propertyPermissions";
 import { UserRepository } from "src/repositories/user.repository";
 
 @Component({
@@ -38,27 +40,50 @@ export class PropriedadeComponent {
     //---------------------------------------------Usuario------------------------------------------------
     private userId: string = 'diogo.defante';
     private users: User[] = [];
-    private user: User | undefined;
-
-    constructor(private userRepository: UserRepository) {
-        userRepository.getUsers().subscribe({
-            next: (value) => {
-                this.users = value
-                console.log(value)
-            }
-        })
+    private user: User;
+    private userLoginPermissions: PropertyPermissions[];
+  
+    constructor(
+  
+      private cardPermissionsRepository: PropertyPermissionsRepository,
+    ) {
+      this.getCookie();
     }
-    //define se o usuario cadastrado tem permissão para determinada ação
+  
+    async getCookie() {
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var cookieArray = decodedCookie.split(';');
+  
+      for (var i = 0; i < cookieArray.length; i++) {
+        var cookie = cookieArray[i];
+        while (cookie.charAt(0) === ' ') {
+          cookie = cookie.substring(1);
+        }
+        if (cookie.indexOf("User=") === 0) {
+          this.user = await JSON.parse(cookie.substring("User=".length, cookie.length));
+          this.getPermissions();
+  
+        }
+      }
+    }
+    async getPermissions() {
+      if (this.user != undefined) {
+        this.userLoginPermissions = await this.cardPermissionsRepository
+          .getPropPermissionByUserId(this.user).toPromise()
+      }
+    }
+    //verifica se o usuario logado tem determinada permissão
     hasPermission(permission: string): boolean {
-        // if (this.user != undefined) {
-        //     return this.user.propertiesPermissions.some((propertiesPermission) => {
-        //         return propertiesPermission === permission;
-        //     });
-        // } else {
-        //     return false;
-        // }
-        return true;
+      if (this.userLoginPermissions != undefined) {
+        for (let cardPermissions of this.userLoginPermissions) {
+          if (cardPermissions.type == permission) {
+            return true;
+          }
+        }
+      }
+      return false;
     }
+  
     //---------------------------------------------Cadastro------------------------------------------------
 
     cadastro: boolean = false;

@@ -25,7 +25,8 @@ export class CadastroComponent  {
 
 
   registerUser():void{
-    console.log(this.singupUser);
     this.userRepository.sendUser(this.singupUser).subscribe()
+    console.log(this.singupUser)
+    this.singupUser = new User('','', '', '', [], [])
   }
 }

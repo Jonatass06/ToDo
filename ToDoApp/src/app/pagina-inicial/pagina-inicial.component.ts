@@ -45,7 +45,7 @@ export class PaginaInicialComponent implements OnInit {
   //pesquisa
   pesquisa: string = '';
 
-  todo:boolean;
+  todo:boolean = true;
   property:boolean;
 
  constructor(private router: Router, private renderer: Renderer2)

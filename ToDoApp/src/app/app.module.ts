@@ -12,6 +12,7 @@ import { PaginaInicialComponent } from './pagina-inicial/pagina-inicial.componen
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { CardPermissionsRepository } from 'src/repositories/cardPermissions';
+import { PropertyPermissionsRepository } from 'src/repositories/propertyPermissions';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { CardPermissionsRepository } from 'src/repositories/cardPermissions';
     UserRepository,
     CardPermissionsRepository,
     AuthGuardService,
+    PropertyPermissionsRepository
   ],
   bootstrap: [AppComponent]
 })

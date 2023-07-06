@@ -26,9 +26,8 @@ export class UserRepository {
     }
 
     public getUserById(user: User): Observable<User> {
-        return this.httpClient.get(API_URL + "/" + user.id).pipe(
-          map(user => user as User)
-        );
+        console.log( Object.assign(new Observable<User>(), this.httpClient.get(API_URL + "/" + user.id)).toPromise())
+        return Object.assign(new Observable<User>(), this.httpClient.get(API_URL + "/" + user.id))
       }
 
     public removeUser(user:User): Observable<User>{

@@ -13,15 +13,15 @@ function findAllRoute(){
         res.json(await CardPermissions.findAll(), null, 2)
     });
 }
-function findByUserIdRoute(){
-    routes.get('/cardPermissions/:id', async(req, res)=>{
-        const cardPermissions = await CardPermissions.findAll(req.params, {
-            where:{
-                userId:req.params.id
-            }
-        });
-        res.json(cardPermissions, null, 2);
+function findByUserIdRoute() {
+  routes.get('/cardPermissions/:id', async (req, res) => {
+    const cardPermissions = await CardPermissions.findAll({
+      where: {
+        userId: req.params.id
+      }
     });
+    res.json(cardPermissions, null, 2);
+  });
 }
 function removeRoute(){
     routes.delete('/cardPermissions/:id', async (req, res)=>{

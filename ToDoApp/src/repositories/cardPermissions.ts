@@ -24,14 +24,14 @@ export class CardPermissionsRepository {
             }));
     }
 
-    public getPropPermissionByUserId(user:User): Observable<CardPermissions[]> {
+    public getCardPermissionByUserId(user:User): Observable<CardPermissions[]> {
         return this.httpClient.get<CardPermissions[]>(API_URL+"/"+user.id)
             .pipe(map(values => {
-                const cardPermissionss: CardPermissions[] = [];
+                const cardPermissions: CardPermissions[] = [];
                 for (const value of values) {
-                    cardPermissionss.push(Object.assign(new CardPermissions('', '', ''), value))
+                    cardPermissions.push(Object.assign(new CardPermissions('', '', ''), value))
                 }
-                return cardPermissionss;
+                return cardPermissions;
             }));
     }
 

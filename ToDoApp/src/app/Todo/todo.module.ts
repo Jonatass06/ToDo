@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TodoComponent } from './todo.component';
 import { FormsModule } from '@angular/forms';
-import { PropriedadeModule } from '../propriedade/propriedade.module';
+import { TodoComponent } from '../todo/todo.component';
 
 
 @NgModule({

@@ -15,7 +15,7 @@ function findAllRoute(){
 }
 function findByUserIdRoute(){
     routes.get('/propertyPermissions/:id', async(req, res)=>{
-        const propertyPermissions = await PropertyPermissions.findAll(req.params, {
+        const propertyPermissions = await PropertyPermissions.findAll({
             where:{
                 userId:req.params.id
             }
