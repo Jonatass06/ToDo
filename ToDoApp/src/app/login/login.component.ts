@@ -10,18 +10,18 @@ import { UserRepository } from 'src/repositories/user.repository';
 })
 export class LoginComponent implements OnInit {
 
-  
+
   ngOnInit(): void {
-    
+
   }
 
-  loginUser:User = new User('','', '', '', [], [])
+  userLoging: User = new User('', '', '', '', [], [])
 
   private users: User[] = [];
 
   constructor(
     private userRepository: UserRepository,
-    private route:Router
+    private route: Router
   ) {
     this.userRepository.getUsers().subscribe({
       next: (value) => {
@@ -31,32 +31,22 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  @Output() loginSuccess = new EventEmitter
+  async logInUser() {
 
-    logInUser(): void {
+    let user = this.userRepository.getUserById(this.userLoging).toPromise();
 
-      this.userRepository.getUserById(this.loginUser).subscribe(
-        user => {
-          console.log(user)
-          if(user.password == this.loginUser.password){
-            this.setCookie("User", JSON.stringify(user), 1)
-            this.route.navigate(["/initialPage"])
-
-          } else{
-            //outra mensagem de erro
-          }
-        },
-        error => {
-          // depois fazer mensagem de erro
-          console.error(error);
-        }
-      )
-      this.loginUser = new User('','', '', '', [], [])
+    console.log(await user)
+    if((await user).password == this.userLoging.password){
+      this.setCookie("User", JSON.stringify(await user), 1)
+      this.route.navigate(["/initialPage"])
     }
-    setCookie(name, value, days) {
-      var d = new Date();
-      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-      var expires = "expires=" + d.toUTCString();
-      document.cookie = name + "=" + value + ";" + expires + ";path=/";
-    }
+    this.userLoging = new User('', '', '', '', [], [])
+  }
+
+  setCookie(name, value, days) {
+    var d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+  }
 }

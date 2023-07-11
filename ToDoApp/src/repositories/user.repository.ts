@@ -24,12 +24,9 @@ export class UserRepository {
             return users;
         }));
     }
-
     public getUserById(user: User): Observable<User> {
-        console.log( Object.assign(new Observable<User>(), this.httpClient.get(API_URL + "/" + user.id)).toPromise())
-        return Object.assign(new Observable<User>(), this.httpClient.get(API_URL + "/" + user.id))
-      }
-
+        return Object.assign(new Observable<User>(), this.httpClient.get<User>(API_URL + "/" + user.id));
+    }
     public removeUser(user:User): Observable<User>{
         return this.httpClient.delete<User>(API_URL+"/"+user.id)
     }
